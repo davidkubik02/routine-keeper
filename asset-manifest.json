@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/reoutine-keeper/static/css/main.dc9837ef.css",
+    "main.js": "/reoutine-keeper/static/js/main.0db8c90a.js",
+    "index.html": "/reoutine-keeper/index.html",
+    "main.dc9837ef.css.map": "/reoutine-keeper/static/css/main.dc9837ef.css.map",
+    "main.0db8c90a.js.map": "/reoutine-keeper/static/js/main.0db8c90a.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.dc9837ef.css",
+    "static/js/main.0db8c90a.js"
+  ]
+}
