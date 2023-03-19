@@ -13,6 +13,10 @@ function App() {
   const basePath = "/reoutine-keeper"
   return (
     <BrowserRouter>
+    <div>sahoidsahoidsa</div>
+    <div>sahoidsahoidsa</div>
+    <div>sahoidsahoidsa</div>
+    <div>sahoidsahoidsa</div>
       {/* {user && <h1 onClick={logout}>{user.name}</h1>} */}
       <Routes>
         <Route path={basePath} element={<Home/>}/>
