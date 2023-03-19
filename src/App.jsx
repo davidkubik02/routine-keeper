@@ -10,16 +10,16 @@ function App() {
 
   // const {user, logout} = useContext(AuthContext)
   // console.log(user)
-  
+  const basePath = "/reoutine-keeper"
   return (
     <BrowserRouter>
       {/* {user && <h1 onClick={logout}>{user.name}</h1>} */}
       <Routes>
-        <Route path="/" element={<Home/>}/>
-        <Route path="/new" element={<NewTaskForm/>}/>
-        <Route path="/new/:id" element={<NewTaskForm/>}/>
-        <Route path="/login" element={<Login/>}/>
-        <Route path="/register" element={<Register/>}/>
+        <Route path={basePath} element={<Home/>}/>
+        <Route path={basePath+"/new"} element={<NewTaskForm/>}/>
+        <Route path={basePath+"/new/:id"} element={<NewTaskForm/>}/>
+        <Route path={basePath+"/login"} element={<Login/>}/>
+        <Route path={basePath+"/register"} element={<Register/>}/>
 
       </Routes>
     
