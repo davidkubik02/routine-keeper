@@ -58,7 +58,7 @@ const Task = ({taskInfo}) => {
                   <div>{hoursToTime(taskInfo.deadline)}</div>
                 </div>
                 <div className='flex-center-column'>
-                  <i onClick={()=>navigate(`new/${taskInfo.id}`)} className="fa-solid fa-gear"/>
+                  <i onClick={()=>navigate(`/new/${taskInfo.id}`)} className="fa-solid fa-gear"/>
                   <i onClick={setTaskToComplete} className={`${taskIsCompleated?"fa-sharp fa-regular fa-square-check":"far fa-square"}`}></i>
                 </div>
               </div>
