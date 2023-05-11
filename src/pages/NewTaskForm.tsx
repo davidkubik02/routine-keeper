@@ -13,34 +13,33 @@ import {
   updateDoc,
   setDoc,
   deleteDoc,
+  DocumentData,
+  DocumentSnapshot,
 } from "firebase/firestore";
+import { TaskModel } from "../models/taskModel";
 
 function NewTaskForm() {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
+  const [name, setName] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
 
-  const [plannedTimeHours, setPlannedTimeHours] = useState("");
-  const [plannedTimeMins, setPlannedTimeMins] = useState("");
+  const [plannedTime, setPlannedTime] = useState<number | undefined>();
+  const [deadline, setDeadline] = useState<number | undefined>();
 
-  const [deadlineHours, setDeadlineHours] = useState("");
-  const [deadlineMins, setDeadlineMins] = useState("");
+  const [plannedTimeValidation, setPlannedTimeValidation] =
+    useState<boolean>(false);
+  const [deadlineValidation, setDealineValidation] = useState<boolean>(false);
 
-  const [plannedTimeValidation, setPlannedTimeValidation] = useState(false);
-  const [deadlineValidation, setDealineValidation] = useState(false);
-
-  const [isNew, setIsNew] = useState(true);
+  const [isNew, setIsNew] = useState<boolean>(true);
 
   const navigate = useNavigate();
   const { id } = useParams();
 
   useEffect(() => {
-    const clearInputs = () => {
+    const clearInputs = (): void => {
       setName("");
       setDescription("");
-      setPlannedTimeHours("");
-      setPlannedTimeMins("");
-      setDeadlineHours("");
-      setDeadlineMins("");
+      setPlannedTime(undefined);
+      setDeadline(undefined);
       setIsNew(true);
     };
     if (id) {
@@ -50,18 +49,8 @@ function NewTaskForm() {
           const taskData = docSnap.data();
           setName(taskData.name);
           setDescription(taskData.description);
-          const plannedTimeInHours = Math.floor(taskData.plannedTime);
-          const plannedTimeInMinutes = Math.round(
-            (taskData.plannedTime - plannedTimeInHours) * 60
-          );
-          setPlannedTimeHours(plannedTimeInHours);
-          setPlannedTimeMins(plannedTimeInMinutes);
-          const deadlineTimeInHours = Math.floor(taskData.deadline);
-          const deadlineTimeInMinutes = Math.round(
-            (taskData.deadline - deadlineTimeInHours) * 60
-          );
-          setDeadlineHours(deadlineTimeInHours);
-          setDeadlineMins(deadlineTimeInMinutes);
+          setPlannedTime(taskData.plannedTime);
+          setDeadline(taskData.deadline);
         } else {
           clearInputs();
         }
@@ -71,26 +60,22 @@ function NewTaskForm() {
     }
   }, [id]);
 
-  const getTask = async (id) => {
+  const getTask = async (
+    id: string
+  ): Promise<DocumentSnapshot<DocumentData>> => {
     const docRef = doc(db, "tasks", id);
     const docSnap = await getDoc(docRef);
     return docSnap;
   };
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: any): void => {
     event.preventDefault();
-    const plannedTimeInHours = timeToHours(plannedTimeHours, plannedTimeMins);
-    const deadlineInHours = timeToHours(deadlineHours, deadlineMins);
-    if (plannedTimeInHours > 0 && plannedTimeInHours < 24) {
+    if (plannedTime && plannedTime > 0 && plannedTime < 24) {
       setPlannedTimeValidation(false);
     } else {
       setPlannedTimeValidation(true);
       return;
     }
-    if (
-      deadlineInHours > 0 &&
-      deadlineInHours < 24 &&
-      plannedTimeInHours <= deadlineInHours
-    ) {
+    if (deadline && deadline > 0 && deadline < 24 && plannedTime <= deadline) {
       setDealineValidation(false);
     } else {
       setDealineValidation(true);
@@ -99,8 +84,10 @@ function NewTaskForm() {
     const formData = {
       name,
       description,
-      plannedTime: plannedTimeInHours,
-      deadline: deadlineInHours,
+      plannedTime,
+      deadline,
+      compleated: false,
+      compleatedInTime: false,
     };
     if (isNew) {
       storeTask(formData);
@@ -109,7 +96,8 @@ function NewTaskForm() {
     }
   };
 
-  const updateTask = async (task) => {
+  const updateTask = async (task: TaskModel): Promise<void> => {
+    if (!id) return;
     try {
       await updateDoc(doc(db, "tasks", id), {
         ...task,
@@ -120,7 +108,7 @@ function NewTaskForm() {
       alert("Došlo k chybě");
     }
   };
-  const storeTask = async (task) => {
+  const storeTask = async (task: TaskModel): Promise<void> => {
     try {
       if (id) {
         await setDoc(doc(db, "tasks", id), {
@@ -143,6 +131,7 @@ function NewTaskForm() {
   };
 
   const deleteTask = async () => {
+    if (!id) return;
     if (window.confirm("Vážně chcete smazat tento úkol?")) {
       try {
         await deleteDoc(doc(db, "tasks", id));
@@ -154,14 +143,38 @@ function NewTaskForm() {
     }
   };
 
-  const timeToHours = (hours, minutes) => {
-    return Number(hours) + Number(minutes) / 60;
-  };
-
   const [menuActive, setMenuActive] = useState(false);
 
   const toggleMenu = () => {
     setMenuActive((menuActive) => !menuActive);
+  };
+
+  const changeHoursInTime = (
+    oldTime: number | undefined,
+    newHours: number | string
+  ): number | undefined => {
+    if (oldTime || oldTime === 0) {
+      return Number(newHours) + (oldTime % 1);
+    } else {
+      return Number(newHours);
+    }
+  };
+  const changeMinutesInTime = (
+    oldTime: number | undefined,
+    newMins: number | string
+  ) => {
+    if (oldTime || oldTime === 0) {
+      return Number(newMins) / 60 + Math.floor(oldTime);
+    } else {
+      return Number(newMins) / 60;
+    }
+  };
+
+  const calcHours = (time: number | undefined) => {
+    return time && Math.floor(time) !== 0 ? Math.floor(time) : "";
+  };
+  const calcMins = (time: number | undefined) => {
+    return time && time % 1 !== 0 ? Math.round((time % 1) * 60) : "";
   };
 
   return (
@@ -203,22 +216,32 @@ function NewTaskForm() {
             <label htmlFor="plannedTime">Naplánovaný čas:</label>
             <div className="time-input-container">
               <input
-                type="text"
+                type="number"
                 className="time-input"
                 placeholder="00"
-                value={plannedTimeHours}
-                onChange={(e) => setPlannedTimeHours(e.target.value)}
-                maxLength={2}
+                min={0}
+                max={23}
+                value={calcHours(plannedTime)}
+                onChange={(e) => {
+                  setPlannedTime((prevTime) =>
+                    changeHoursInTime(prevTime, e.target.value)
+                  );
+                }}
               />
               <span>:</span>
               <input
-                type="text"
+                type="number"
                 className="time-input"
                 id="minute-input"
                 placeholder="00"
-                value={plannedTimeMins}
-                onChange={(e) => setPlannedTimeMins(e.target.value)}
-                maxLength={2}
+                min={0}
+                max={59}
+                value={calcMins(plannedTime)}
+                onChange={(e) =>
+                  setPlannedTime((prevTime) =>
+                    changeMinutesInTime(prevTime, e.target.value)
+                  )
+                }
               />
             </div>
             {plannedTimeValidation && (
@@ -229,22 +252,32 @@ function NewTaskForm() {
             <label htmlFor="deadline">Nejpozději do:</label>
             <div className="time-input-container">
               <input
-                type="text"
+                type="number"
                 className="time-input"
                 placeholder="00"
-                value={deadlineHours}
-                onChange={(e) => setDeadlineHours(e.target.value)}
-                maxLength={2}
+                min={0}
+                max={23}
+                value={calcHours(deadline)}
+                onChange={(e) => {
+                  setDeadline((prevTime) =>
+                    changeHoursInTime(prevTime, e.target.value)
+                  );
+                }}
               />
               <span>:</span>
               <input
-                type="text"
+                type="number"
                 className="time-input"
                 id="minute-input"
                 placeholder="00"
-                value={deadlineMins}
-                onChange={(e) => setDeadlineMins(e.target.value)}
-                maxLength={2}
+                min={0}
+                max={59}
+                value={calcMins(deadline)}
+                onChange={(e) => {
+                  setDeadline((prevTime) =>
+                    changeMinutesInTime(prevTime, e.target.value)
+                  );
+                }}
               />
             </div>
             {deadlineValidation && (
@@ -257,8 +290,10 @@ function NewTaskForm() {
               taskInfo={{
                 name,
                 description,
-                plannedTime: timeToHours(plannedTimeHours, plannedTimeMins),
-                deadline: timeToHours(deadlineHours, deadlineMins),
+                plannedTime: plannedTime ? plannedTime : 0,
+                deadline: deadline ? deadline : 0,
+                compleated: false,
+                compleatedInTime: false,
               }}
             />
           </div>

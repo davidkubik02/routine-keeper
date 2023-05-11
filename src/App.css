@@ -1,15 +1,15 @@
-*{
+* {
   padding: 0;
   margin: 0;
   box-sizing: border-box;
   font-family: sans-serif;
 }
 
-i{
+i {
   cursor: pointer;
 }
 
-a{
+a {
   color: black;
   text-decoration: none;
 }
@@ -19,7 +19,7 @@ a{
   color: #fff;
 } */
 
-.page-container{
+.page-container {
   max-width: 598px;
   margin: 0 auto;
   border-left: 1px solid rgb(200, 200, 200);
@@ -27,7 +27,7 @@ a{
   height: 100vh;
 }
 
-.header{
+.header {
   width: 100%;
   display: flex;
   padding: 5px 25px;
@@ -41,7 +41,7 @@ a{
   font-size: 20px;
 }
 
-.search{
+.search {
   width: 90%;
   position: relative;
   display: flex;
@@ -49,7 +49,7 @@ a{
   align-items: center;
 }
 
-.search-inputs{
+.search-inputs {
   background-color: rgb(233, 233, 233);
   height: 38px;
   width: 100%;
@@ -58,12 +58,10 @@ a{
   align-items: center;
   padding: 0 20px;
   position: relative;
-
-
 }
 
-.search-input{
-  background-color: transparent;  
+.search-input {
+  background-color: transparent;
   outline: none;
   border: 0;
   padding: 0 20px;
@@ -71,7 +69,7 @@ a{
   width: 100%;
 }
 
-.task{
+.task {
   display: flex;
   padding: 15px;
   border-bottom: 1px solid rgb(200, 200, 200);
@@ -79,61 +77,56 @@ a{
   transition: background-color ease-out 0.15s;
 }
 
-.task-finnished{
+.task-finnished {
   background-color: rgb(226, 255, 182);
 }
-.task-not-finnished{
+.task-not-finnished {
   background-color: rgb(255, 172, 182);
 }
-.task-finnished-late{
+.task-finnished-late {
   background-color: rgb(255, 230, 182);
 }
 
-.finnished{
+.finnished {
   color: rgb(0, 185, 0);
   text-shadow: 0 0 2px rgba(0, 0, 0, 0.336);
 }
 
-
-.task-p{
+.task-p {
   margin-left: 15px;
   width: 100%;
 }
 
-.task-header{
+.task-header {
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   margin-bottom: 5px;
 }
 
-.task-header-user-info{
+.task-header-user-info {
   display: flex;
-  align-items:flex-end;
-
+  align-items: flex-end;
 }
 
-.big-text{
+.big-text {
   font-size: 18px;
   font-weight: bold;
-
 }
 
-.flex-center-column{
+.flex-center-column {
   display: flex;
   align-items: center;
   flex-direction: column;
 }
 
-.flex-center-column i{
+.flex-center-column i {
   margin: 5px 0;
 }
 
-
-
 /* Register form */
 
-.auth-form{
+.auth-form {
   max-width: 350px;
   background-color: aquamarine;
   height: 400px;
@@ -148,66 +141,63 @@ a{
   border-radius: 5px;
 }
 
-.auth-form h2{
+.auth-form h2 {
   margin-bottom: 40px;
 }
 
-.auth-form input, .auth-form button{
+.auth-form input,
+.auth-form button {
   outline: none;
   border: 0;
   width: 250px;
   padding: 15px;
   margin: 5px;
   border-radius: 5px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
 
-.auth-form button{
+.auth-form button {
   cursor: pointer;
   font-size: 14px;
   font-weight: bold;
 }
 
-.auth-form button:hover{
+.auth-form button:hover {
   background-color: rgb(194, 194, 194);
 }
 
-.alert{
+.alert {
   color: red;
   position: absolute;
   bottom: 20px;
 }
 
-
-
-
 /* Register form */
 
-
 /* Menu start*/
-.menu{
+.menu {
   position: fixed;
   z-index: 1000000;
   background-color: #fff;
   width: 300px;
   max-width: 50vw;
   height: 100vh;
-  box-shadow: 0 0 100px rgba(0,0,0,0.7);
+  box-shadow: 0 0 100px rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   flex-direction: column;
-  left: -100vw; 
+  left: -100vw;
   transition: transform 0.3s ease-in-out;
 }
-.menu-active{
+.menu-active {
   transform: translateX(100vw);
 }
 
-.menu-button{
+.menu-button {
   margin-left: 50px;
   margin-bottom: 10px;
 }
-.menu-button:hover{
+.menu-button:hover {
   text-decoration: underline;
 }
 
@@ -220,33 +210,32 @@ a{
 
 /*new form start*/
 
-.new-form{
+.new-form {
   padding: 0 5%;
 }
 
-.form-input{
+.form-input {
   padding: 15px 0;
   display: flex;
   flex-direction: column;
 }
 
-.form-input label{
+.form-input label {
   font-weight: bold;
 }
-.form-input input{
+.form-input input {
   outline: none;
   height: 2rem;
   font-size: 1rem;
   padding: 0 5px;
 }
 
-.form-submit{
+.form-submit {
   width: 100px;
   height: 2rem;
   outline: none;
   cursor: pointer;
   margin-top: 15px;
-
 }
 
 .time-input-container {
@@ -256,19 +245,20 @@ a{
 
 .time-input {
   border: none;
-  width: 2rem;
+  width: 3rem;
+  margin-left: 1rem;
 }
 
-.validation-message{
+.validation-message {
   font-size: 0.9rem;
   color: rgb(255, 0, 0);
 }
 
-.task-preview{
+.task-preview {
   position: relative;
 }
 
-.task-preview-overlay{
+.task-preview-overlay {
   width: 100%;
   height: 100%;
   position: absolute;
