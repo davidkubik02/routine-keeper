@@ -24,11 +24,6 @@ function NewTaskForm() {
 
   const [plannedTime, setPlannedTime] = useState<number | undefined>();
   const [deadline, setDeadline] = useState<number | undefined>();
-  // const [plannedTimeHours, setPlannedTimeHours] = useState<string>("");
-  // const [plannedTimeMins, setPlannedTimeMins] = useState<string>("");
-
-  // const [deadlineHours, setDeadlineHours] = useState<string>("");
-  // const [deadlineMins, setDeadlineMins] = useState<string>("");
 
   const [plannedTimeValidation, setPlannedTimeValidation] =
     useState<boolean>(false);

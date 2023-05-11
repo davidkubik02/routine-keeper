@@ -36,8 +36,6 @@ const Home = () => {
 
   const [filtredTasks, setFiltredTasks] = useState<TaskModel[]>(tasks);
 
-  // const { user } = useContext(AuthContext);
-
   const [menuActive, setMenuActive] = useState<boolean>(false);
 
   const toggleMenu = (): void => {

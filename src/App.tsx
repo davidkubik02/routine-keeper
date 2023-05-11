@@ -7,11 +7,8 @@ import NewTaskForm from "./pages/NewTaskForm";
 import React from "react";
 
 function App() {
-  // const {user, logout} = useContext(AuthContext)
-  // console.log(user)
   return (
     <BrowserRouter>
-      {/* {user && <h1 onClick={logout}>{user.name}</h1>} */}
       <Routes>
         <Route path="/reoutine-keeper" element={<Home />} />
         <Route path="/new" element={<NewTaskForm />} />
