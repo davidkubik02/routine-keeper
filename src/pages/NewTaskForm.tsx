@@ -171,10 +171,10 @@ function NewTaskForm() {
   };
 
   const calcHours = (time: number | undefined) => {
-    return time && Math.floor(time);
+    return time && Math.floor(time) !== 0 ? Math.floor(time) : "";
   };
   const calcMins = (time: number | undefined) => {
-    return time && (time % 1) * 60;
+    return time && time % 1 !== 0 ? Math.round((time % 1) * 60) : "";
   };
 
   return (
@@ -216,30 +216,32 @@ function NewTaskForm() {
             <label htmlFor="plannedTime">Naplánovaný čas:</label>
             <div className="time-input-container">
               <input
-                type="text"
+                type="number"
                 className="time-input"
                 placeholder="00"
+                min={0}
+                max={23}
                 value={calcHours(plannedTime)}
                 onChange={(e) => {
                   setPlannedTime((prevTime) =>
                     changeHoursInTime(prevTime, e.target.value)
                   );
                 }}
-                maxLength={2}
               />
               <span>:</span>
               <input
-                type="text"
+                type="number"
                 className="time-input"
                 id="minute-input"
                 placeholder="00"
+                min={0}
+                max={59}
                 value={calcMins(plannedTime)}
                 onChange={(e) =>
                   setPlannedTime((prevTime) =>
                     changeMinutesInTime(prevTime, e.target.value)
                   )
                 }
-                maxLength={2}
               />
             </div>
             {plannedTimeValidation && (
@@ -250,30 +252,32 @@ function NewTaskForm() {
             <label htmlFor="deadline">Nejpozději do:</label>
             <div className="time-input-container">
               <input
-                type="text"
+                type="number"
                 className="time-input"
                 placeholder="00"
+                min={0}
+                max={23}
                 value={calcHours(deadline)}
                 onChange={(e) => {
                   setDeadline((prevTime) =>
                     changeHoursInTime(prevTime, e.target.value)
                   );
                 }}
-                maxLength={2}
               />
               <span>:</span>
               <input
-                type="text"
+                type="number"
                 className="time-input"
                 id="minute-input"
                 placeholder="00"
+                min={0}
+                max={59}
                 value={calcMins(deadline)}
                 onChange={(e) => {
                   setDeadline((prevTime) =>
                     changeMinutesInTime(prevTime, e.target.value)
                   );
                 }}
-                maxLength={2}
               />
             </div>
             {deadlineValidation && (
