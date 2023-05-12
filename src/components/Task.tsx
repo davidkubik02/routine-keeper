@@ -34,15 +34,42 @@ const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
     }${minutes}`;
   };
 
-  const setTaskColor = (): string | undefined => {
+  const setTaskColor = ():
+    | {
+        backgroundColor: string;
+        textShadow?: string;
+        color?: string;
+      }
+    | undefined => {
     const inTime = calculateTime() <= taskInfo.deadline;
+    const timeWillBeSoon =
+      calculateTime() > taskInfo.deadline - 0.5 &&
+      calculateTime() < taskInfo.deadline;
+
+    let taskColor: undefined | string;
     if (taskIsCompleated) {
       if (taskInfo.compleatedInTime || inTime) {
-        return "task-finnished";
-      } else return "task-finnished-late";
+        // finished in time
+        return {
+          backgroundColor: "#339900",
+          textShadow: "#ffd700 1px 0 15px",
+          color: "#ffd700",
+        };
+        // finished late
+      } else taskColor = "99cc33";
     } else {
-      return inTime ? undefined : "task-not-finnished";
+      // not finished
+      if (timeWillBeSoon) {
+        taskColor = "ff9966";
+      } else if (inTime) {
+        // deadline will be soon
+        taskColor = "fff";
+        // not finished after deadline
+      } else taskColor = "CC3333";
     }
+    return {
+      backgroundColor: `#${taskColor}`,
+    };
   };
   const setTaskToComplete = (): void => {
     const inTime = calculateTime() <= taskInfo.deadline;
@@ -51,7 +78,7 @@ const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
     setTaskIsCompleated((taskIsCompleated: boolean) => !taskIsCompleated);
   };
   return (
-    <div className={`task ${setTaskColor()}`}>
+    <div style={setTaskColor()} className={"task"}>
       <div className="task-p">
         <div className="task-header">
           <div className="task-header-user-info">
