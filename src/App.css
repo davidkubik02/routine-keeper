@@ -75,21 +75,7 @@ a {
   border-bottom: 1px solid rgb(200, 200, 200);
   border-top: 1px solid rgb(200, 200, 200);
   transition: background-color ease-out 0.15s;
-}
-
-.task-finnished {
-  background-color: rgb(226, 255, 182);
-}
-.task-not-finnished {
-  background-color: rgb(255, 172, 182);
-}
-.task-finnished-late {
-  background-color: rgb(255, 230, 182);
-}
-
-.finnished {
-  color: rgb(0, 185, 0);
-  text-shadow: 0 0 2px rgba(0, 0, 0, 0.336);
+  height: 8rem;
 }
 
 .task-p {
