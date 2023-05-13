@@ -34,13 +34,13 @@ const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
     }${minutes}`;
   };
 
-  const setTaskColor = (): { backgroundColor: string } | undefined => {
+  const setTaskColor = (): { backgroundColor: string } => {
     const inTime = calculateTime() <= taskInfo.deadline;
     const timeWillBeSoon =
       calculateTime() > taskInfo.deadline - 0.5 &&
       calculateTime() < taskInfo.deadline;
 
-    let taskColor: undefined | string;
+    let taskColor: string;
     if (taskIsCompleated) {
       if (taskInfo.compleatedInTime || inTime) {
         // finished in time
