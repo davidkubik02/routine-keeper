@@ -75,22 +75,7 @@ a {
   border-bottom: 1px solid rgb(200, 200, 200);
   border-top: 1px solid rgb(200, 200, 200);
   transition: background-color ease-out 0.15s;
-  height: 10rem;
-}
-
-.task-finnished {
-  background-color: rgb(226, 255, 182);
-}
-.task-not-finnished {
-  background-color: rgb(255, 172, 182);
-}
-.task-finnished-late {
-  background-color: rgb(255, 230, 182);
-}
-
-.finnished {
-  color: rgb(0, 185, 0);
-  text-shadow: 0 0 2px rgba(0, 0, 0, 0.336);
+  height: 8rem;
 }
 
 .task-p {
@@ -267,3 +252,40 @@ a {
   z-index: 1000;
 }
 /*new form end*/
+
+/******** note start */
+
+.note-contaner {
+  width: 50px;
+  height: 50px;
+  background-color: red;
+}
+.note-overlay {
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 100vw;
+  height: 100vh;
+  position: absolute;
+}
+.note {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80vw;
+  height: 80vh;
+  border: 1px solid black;
+  overflow: auto;
+  transform: translate(10vw, 10vh) scale(100%);
+  transition: transform 1s ease-in-out;
+}
+
+.note-close {
+  position: fixed;
+  width: 80vw;
+  height: 80vh;
+  border: 1px solid black;
+  overflow: auto;
+  transform: translate(-36vw, -36vh) scale(10%);
+  transition: transform 1s ease-in-out;
+}
+
+/* note end */

@@ -34,13 +34,7 @@ const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
     }${minutes}`;
   };
 
-  const setTaskColor = ():
-    | {
-        backgroundColor: string;
-        textShadow?: string;
-        color?: string;
-      }
-    | undefined => {
+  const setTaskColor = (): { backgroundColor: string } | undefined => {
     const inTime = calculateTime() <= taskInfo.deadline;
     const timeWillBeSoon =
       calculateTime() > taskInfo.deadline - 0.5 &&
@@ -50,23 +44,20 @@ const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
     if (taskIsCompleated) {
       if (taskInfo.compleatedInTime || inTime) {
         // finished in time
-        return {
-          backgroundColor: "#339900",
-          textShadow: "#ffd700 1px 0 15px",
-          color: "#ffd700",
-        };
+        taskColor = "32ff32";
         // finished late
-      } else taskColor = "99cc33";
+      } else taskColor = "e2ffb6";
     } else {
       // not finished
       if (timeWillBeSoon) {
-        taskColor = "ff9966";
+        taskColor = "ffe6b6";
       } else if (inTime) {
         // deadline will be soon
         taskColor = "fff";
         // not finished after deadline
-      } else taskColor = "CC3333";
+      } else taskColor = "ffacb6";
     }
+
     return {
       backgroundColor: `#${taskColor}`,
     };
