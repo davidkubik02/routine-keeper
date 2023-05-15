@@ -5,6 +5,7 @@ import Login from "./pages/Login";
 import { Route, Routes, BrowserRouter } from "react-router-dom";
 import NewTaskForm from "./pages/NewTaskForm";
 import React from "react";
+import Note from "./components/Note";
 
 function App() {
   return (

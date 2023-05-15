@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { TaskModel } from "../models/taskModel";
+import Note from "./Note";
 
 const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
   const navigate = useNavigate();
@@ -84,17 +85,17 @@ const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
               onClick={() => navigate(`/new/${taskInfo.id}`)}
               className="fa-solid fa-gear"
             />
-            <i
+            <input
+              className="checkbox"
+              type="checkbox"
+              checked={taskIsCompleated}
               onClick={setTaskToComplete}
-              className={`${
-                taskIsCompleated
-                  ? "fa-sharp fa-regular fa-square-check"
-                  : "far fa-square"
-              }`}
-            ></i>
+            />
           </div>
         </div>
-        <p>{taskInfo.description}</p>
+        {taskInfo.id !== undefined && (
+          <Note taskInfo={taskInfo} id={taskInfo.id} />
+        )}
       </div>
     </div>
   );
