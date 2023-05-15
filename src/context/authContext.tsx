@@ -18,7 +18,8 @@ export const AuthContextProvider = ({
   children: React.ReactNode;
 }) => {
   const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user") || "")
+    // JSON.parse(localStorage.getItem("user") || "")
+    "user"
   );
 
   //   todo typ u userInfo nesedí s bacendem
@@ -28,7 +29,7 @@ export const AuthContextProvider = ({
   };
   const logout = async () => {
     await axios.post("http://localhost:8800/api/logout");
-    setUser(null);
+    setUser("null");
   };
 
   useEffect(() => {
