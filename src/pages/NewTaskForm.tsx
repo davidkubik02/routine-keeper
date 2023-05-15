@@ -203,12 +203,10 @@ function NewTaskForm() {
             />
           </div>
           <div className="form-input">
-            <label htmlFor="description">Popis:</label>
-            <input
-              type="text"
+            <label htmlFor="description">Poznámka:</label>
+            <textarea
               id="description"
               value={description}
-              maxLength={15}
               onChange={(event) => setDescription(event.target.value)}
             />
           </div>

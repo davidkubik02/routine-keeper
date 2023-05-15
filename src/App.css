@@ -8,16 +8,32 @@
 i {
   cursor: pointer;
 }
+i:hover {
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+  outline: none;
+}
+input[type="checkbox"]:hover {
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+input[type="checkbox"]:after {
+  font-family: "Font Awesome 5 Free";
+  content: "\f0c8";
+}
+input[type="checkbox"]:checked:after {
+  content: "\f14a";
+}
 
 a {
   color: black;
   text-decoration: none;
 }
-
-/* body{
-  background-color: #000;
-  color: #fff;
-} */
 
 .page-container {
   max-width: 598px;
@@ -216,6 +232,14 @@ a {
   padding: 0 5px;
 }
 
+.form-input textarea {
+  outline: none;
+  padding: 5px;
+  height: 5rem;
+  font-size: 1rem;
+  resize: none;
+}
+
 .form-submit {
   width: 100px;
   height: 2rem;
@@ -252,3 +276,85 @@ a {
   z-index: 1000;
 }
 /*new form end*/
+
+/* note */
+
+.note-icon {
+  padding: 5px;
+}
+
+.note-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.note {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 75vw;
+  height: 75vh;
+  border: 1px solid #000;
+  overflow: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.4);
+}
+.note-textarea {
+  width: 90%;
+  min-height: 90%;
+  height: auto;
+  resize: none;
+  padding: 30px;
+  /* padding-top: 45px; */
+  font-size: 1rem;
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.note-close {
+  width: 1rem;
+  padding: 5px;
+  text-align: center;
+  position: absolute;
+  top: 5%;
+  left: calc(95% - 1rem - 7px);
+}
+
+.note-save {
+  width: 1rem;
+  padding: 5px;
+  text-align: center;
+  position: absolute;
+  top: 5%;
+  left: calc(95% - 3rem);
+}
+
+.note-unsave-alert {
+  position: absolute;
+  left: 100%;
+  top: 5%;
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: rgb(255, 102, 0);
+  border-radius: 55px;
+}
+
+.task-note-title {
+  position: absolute;
+  top: 5%;
+  background-color: #fff;
+  padding: 2px 15px;
+  border-radius: 0 0 15px 15px;
+}
+
+/* note */
