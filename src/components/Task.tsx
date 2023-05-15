@@ -89,7 +89,7 @@ const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
               className="checkbox"
               type="checkbox"
               checked={taskIsCompleated}
-              onClick={setTaskToComplete}
+              onChange={setTaskToComplete}
             />
           </div>
         </div>
