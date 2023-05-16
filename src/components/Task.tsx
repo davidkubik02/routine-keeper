@@ -36,11 +36,13 @@ const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
   };
 
   const setTaskColor = (): { backgroundColor: string } => {
-    const inTime = calculateTime() <= taskInfo.deadline;
-    const timeWillBeSoon =
-      calculateTime() > taskInfo.deadline - 0.5 &&
-      calculateTime() < taskInfo.deadline;
-
+    const inTime =
+      calculateTime() <=
+      (taskInfo.deadline === 0 ? Infinity : taskInfo.deadline);
+    const taskTime =
+      calculateTime() >= taskInfo.plannedTime &&
+      calculateTime() <=
+        (taskInfo.deadline === 0 ? Infinity : taskInfo.deadline);
     let taskColor: string;
     if (taskIsCompleated) {
       if (taskInfo.compleatedInTime || inTime) {
@@ -50,7 +52,7 @@ const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
       } else taskColor = "e2ffb6";
     } else {
       // not finished
-      if (timeWillBeSoon) {
+      if (taskTime) {
         taskColor = "ffe6b6";
       } else if (inTime) {
         // deadline will be soon
@@ -64,7 +66,9 @@ const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
     };
   };
   const setTaskToComplete = (): void => {
-    const inTime = calculateTime() <= taskInfo.deadline;
+    const inTime =
+      calculateTime() <=
+      (taskInfo.deadline === 0 ? Infinity : taskInfo.deadline);
     const compleated = !taskIsCompleated;
     updateTask(compleated, inTime);
     setTaskIsCompleated((taskIsCompleated: boolean) => !taskIsCompleated);
@@ -78,7 +82,11 @@ const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
           </div>
           <div className="flex-center-column">
             <div className="big-text">{hoursToTime(taskInfo.plannedTime)}</div>
-            <div>{hoursToTime(taskInfo.deadline)}</div>
+            <div>
+              {taskInfo.deadline !== 0
+                ? hoursToTime(taskInfo.deadline)
+                : "Bez časového omezení"}
+            </div>
           </div>
           <div className="flex-center-column">
             <i
