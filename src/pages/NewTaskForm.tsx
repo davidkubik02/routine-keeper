@@ -22,8 +22,8 @@ function NewTaskForm() {
   const [name, setName] = useState<string>("");
   const [description, setDescription] = useState<string>("");
 
-  const [plannedTime, setPlannedTime] = useState<number | undefined>();
-  const [deadline, setDeadline] = useState<number | undefined>();
+  const [plannedTime, setPlannedTime] = useState<number>(0);
+  const [deadline, setDeadline] = useState<number>(0);
 
   const [plannedTimeValidation, setPlannedTimeValidation] =
     useState<boolean>(false);
@@ -38,8 +38,8 @@ function NewTaskForm() {
     const clearInputs = (): void => {
       setName("");
       setDescription("");
-      setPlannedTime(undefined);
-      setDeadline(undefined);
+      setPlannedTime(0);
+      setDeadline(0);
       setIsNew(true);
     };
     if (id) {
@@ -69,13 +69,13 @@ function NewTaskForm() {
   };
   const handleSubmit = (event: any): void => {
     event.preventDefault();
-    if (plannedTime && plannedTime > 0 && plannedTime < 24) {
+    if (plannedTime >= 0 && plannedTime < 24) {
       setPlannedTimeValidation(false);
     } else {
       setPlannedTimeValidation(true);
       return;
     }
-    if (deadline && deadline > 0 && deadline < 24 && plannedTime <= deadline) {
+    if (deadline >= 0 && deadline < 24 && plannedTime <= deadline) {
       setDealineValidation(false);
     } else {
       setDealineValidation(true);
@@ -150,9 +150,9 @@ function NewTaskForm() {
   };
 
   const changeHoursInTime = (
-    oldTime: number | undefined,
+    oldTime: number,
     newHours: number | string
-  ): number | undefined => {
+  ): number => {
     if (oldTime || oldTime === 0) {
       return Number(newHours) + (oldTime % 1);
     } else {
@@ -160,9 +160,9 @@ function NewTaskForm() {
     }
   };
   const changeMinutesInTime = (
-    oldTime: number | undefined,
+    oldTime: number,
     newMins: number | string
-  ) => {
+  ): number => {
     if (oldTime || oldTime === 0) {
       return Number(newMins) / 60 + Math.floor(oldTime);
     } else {
@@ -289,7 +289,7 @@ function NewTaskForm() {
                 name,
                 description,
                 plannedTime: plannedTime ? plannedTime : 0,
-                deadline: deadline ? deadline : 0,
+                deadline,
                 compleated: false,
                 compleatedInTime: false,
               }}

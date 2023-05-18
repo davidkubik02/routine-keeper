@@ -90,7 +90,7 @@ a {
   padding: 15px;
   border-bottom: 1px solid rgb(200, 200, 200);
   border-top: 1px solid rgb(200, 200, 200);
-  transition: background-color ease-out 0.15s;
+  transition: background-color ease-out 0.3s;
   height: 8rem;
 }
 
@@ -198,6 +198,7 @@ a {
 .menu-button {
   margin-left: 50px;
   margin-bottom: 10px;
+  cursor: pointer;
 }
 .menu-button:hover {
   text-decoration: underline;
@@ -297,7 +298,7 @@ a {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 75vw;
+  width: 90vw;
   height: 75vh;
   border: 1px solid #000;
   overflow: auto;
@@ -313,7 +314,6 @@ a {
   height: auto;
   resize: none;
   padding: 30px;
-  /* padding-top: 45px; */
   font-size: 1rem;
   outline: none;
   border: none;

@@ -4,7 +4,14 @@ import Header from "../components/Header";
 import { useState } from "react";
 import Menu from "../components/Menu";
 
-import { collection, getDocs } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  updateDoc,
+  doc,
+  getDoc,
+  writeBatch,
+} from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { TaskModel } from "../models/taskModel";
 
@@ -25,33 +32,66 @@ const Home = () => {
           compleatedInTime: task.data().compleatedInTime,
         });
       });
-      setTasks(tasksArray);
-      setFiltredTasks(tasksArray);
+      tasksReset(tasksArray);
+      setTasks(sortTasks(tasksArray));
+      setFiltredTasks(sortTasks(tasksArray));
     });
+  };
+  const tasksReset = async (tasks: TaskModel[]) => {
+    try {
+      const docRef = doc(db, "date", "date");
+      const snapshot = await getDoc(docRef);
+      const data = snapshot.data();
+      const dbDate = data?.date;
+      const currentDate = new Date();
+      const isNewDay =
+        !dbDate || dbDate.toDate().getDate() !== currentDate.getDate();
+
+      if (isNewDay) {
+        const batch = writeBatch(db);
+        tasks.forEach(async (task) => {
+          if (task.id) {
+            const taskRef = doc(db, "tasks", task.id);
+            batch.update(taskRef, {
+              compleated: false,
+              compleatedInTime: false,
+            });
+          }
+        });
+        batch.set(doc(db, "date", "date"), {
+          date: currentDate,
+        });
+        await batch.commit();
+        window.location.reload();
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
     getAllTasks();
   }, []);
 
-  const [filtredTasks, setFiltredTasks] = useState<TaskModel[]>(tasks);
+  const [filtredTasks, setFiltredTasks] = useState<TaskModel[]>([]);
 
   const [menuActive, setMenuActive] = useState<boolean>(false);
 
   const toggleMenu = (): void => {
     setMenuActive((menuActive) => !menuActive);
   };
-
-  const sortTasks = (tasks: TaskModel[]): void => {
-    tasks.sort((a, b) => {
-      if (a.plannedTime !== b.plannedTime) {
+  const sortTasks = (tasks: TaskModel[]): TaskModel[] => {
+    return tasks.sort((a, b) => {
+      if (a.compleated !== b.compleated) {
+        return a.compleated ? 1 : -1;
+      } else if (a.plannedTime !== b.plannedTime) {
         return a.plannedTime - b.plannedTime;
       } else {
         return a.deadline - b.deadline;
       }
     });
   };
-  sortTasks(tasks);
+
   return (
     <>
       <Menu active={menuActive} />
