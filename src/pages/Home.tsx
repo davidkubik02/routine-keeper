@@ -4,7 +4,14 @@ import Header from "../components/Header";
 import { useState } from "react";
 import Menu from "../components/Menu";
 
-import { collection, getDocs } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  updateDoc,
+  doc,
+  getDoc,
+  writeBatch,
+} from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { TaskModel } from "../models/taskModel";
 
@@ -25,9 +32,41 @@ const Home = () => {
           compleatedInTime: task.data().compleatedInTime,
         });
       });
+      tasksReset(tasksArray);
       setTasks(sortTasks(tasksArray));
       setFiltredTasks(sortTasks(tasksArray));
     });
+  };
+  const tasksReset = async (tasks: TaskModel[]) => {
+    try {
+      const docRef = doc(db, "date", "date");
+      const snapshot = await getDoc(docRef);
+      const data = snapshot.data();
+      const dbDate = data?.date;
+      const currentDate = new Date();
+      const isNewDay =
+        !dbDate || dbDate.toDate().getDate() !== currentDate.getDate();
+
+      if (isNewDay) {
+        const batch = writeBatch(db);
+        tasks.forEach(async (task) => {
+          if (task.id) {
+            const taskRef = doc(db, "tasks", task.id);
+            batch.update(taskRef, {
+              compleated: false,
+              compleatedInTime: false,
+            });
+          }
+        });
+        batch.set(doc(db, "date", "date"), {
+          date: currentDate,
+        });
+        await batch.commit();
+        window.location.reload();
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   useEffect(() => {
