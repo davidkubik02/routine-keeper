@@ -65,13 +65,20 @@ const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
       backgroundColor: `#${taskColor}`,
     };
   };
-  const setTaskToComplete = (): void => {
+  const setTaskToComplete = async (): Promise<void> => {
     const inTime =
       calculateTime() <=
       (taskInfo.deadline === 0 ? Infinity : taskInfo.deadline);
     const compleated = !taskIsCompleated;
-    updateTask(compleated, inTime);
-    setTaskIsCompleated((taskIsCompleated: boolean) => !taskIsCompleated);
+    try {
+      await updateTask(compleated, inTime);
+      setTaskIsCompleated((taskIsCompleated: boolean) => {
+        taskInfo.compleated = !taskIsCompleated;
+        return !taskIsCompleated;
+      });
+    } catch (err) {
+      alert(err);
+    }
   };
   return (
     <div style={setTaskColor()} className={"task"}>

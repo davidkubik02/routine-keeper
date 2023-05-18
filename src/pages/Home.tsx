@@ -25,8 +25,8 @@ const Home = () => {
           compleatedInTime: task.data().compleatedInTime,
         });
       });
-      setTasks(tasksArray);
-      setFiltredTasks(tasksArray);
+      setTasks(sortTasks(tasksArray));
+      setFiltredTasks(sortTasks(tasksArray));
     });
   };
 
@@ -34,24 +34,25 @@ const Home = () => {
     getAllTasks();
   }, []);
 
-  const [filtredTasks, setFiltredTasks] = useState<TaskModel[]>(tasks);
+  const [filtredTasks, setFiltredTasks] = useState<TaskModel[]>([]);
 
   const [menuActive, setMenuActive] = useState<boolean>(false);
 
   const toggleMenu = (): void => {
     setMenuActive((menuActive) => !menuActive);
   };
-
-  const sortTasks = (tasks: TaskModel[]): void => {
-    tasks.sort((a, b) => {
-      if (a.plannedTime !== b.plannedTime) {
+  const sortTasks = (tasks: TaskModel[]): TaskModel[] => {
+    return tasks.sort((a, b) => {
+      if (a.compleated !== b.compleated) {
+        return a.compleated ? 1 : -1;
+      } else if (a.plannedTime !== b.plannedTime) {
         return a.plannedTime - b.plannedTime;
       } else {
         return a.deadline - b.deadline;
       }
     });
   };
-  sortTasks(tasks);
+
   return (
     <>
       <Menu active={menuActive} />
