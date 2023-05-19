@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/reoutine-keeper/static/css/main.7ad4ce19.css",
-    "main.js": "/reoutine-keeper/static/js/main.ef89c2c6.js",
+    "main.css": "/reoutine-keeper/static/css/main.6107e548.css",
+    "main.js": "/reoutine-keeper/static/js/main.9a386d3d.js",
     "index.html": "/reoutine-keeper/index.html",
-    "main.7ad4ce19.css.map": "/reoutine-keeper/static/css/main.7ad4ce19.css.map",
-    "main.ef89c2c6.js.map": "/reoutine-keeper/static/js/main.ef89c2c6.js.map"
+    "main.6107e548.css.map": "/reoutine-keeper/static/css/main.6107e548.css.map",
+    "main.9a386d3d.js.map": "/reoutine-keeper/static/js/main.9a386d3d.js.map"
   },
   "entrypoints": [
-    "static/css/main.7ad4ce19.css",
-    "static/js/main.ef89c2c6.js"
+    "static/css/main.6107e548.css",
+    "static/js/main.9a386d3d.js"
   ]
 }
