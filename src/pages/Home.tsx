@@ -14,6 +14,7 @@ import {
 } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { TaskModel } from "../models/taskModel";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [tasks, setTasks] = useState<TaskModel[]>([]);
@@ -108,6 +109,9 @@ const Home = () => {
           filtredTasks.map((task: TaskModel) => {
             return <Task key={task.id} taskInfo={task} />;
           })}
+        <Link className="task new-task-button" to="/new">
+          +
+        </Link>
       </div>
     </>
   );

@@ -126,6 +126,18 @@ a {
   margin: 5px 0;
 }
 
+.new-task-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 6rem;
+  transition: font-size 0.1s, box-shadow 0.1s;
+}
+.new-task-button:hover {
+  font-size: 8rem;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.7);
+}
+
 /* Register form */
 
 .auth-form {
