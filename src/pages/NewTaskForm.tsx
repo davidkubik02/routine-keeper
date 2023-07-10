@@ -143,12 +143,6 @@ function NewTaskForm() {
     }
   };
 
-  const [menuActive, setMenuActive] = useState(false);
-
-  const toggleMenu = () => {
-    setMenuActive((menuActive) => !menuActive);
-  };
-
   const changeHoursInTime = (
     oldTime: number,
     newHours: number | string
@@ -179,17 +173,9 @@ function NewTaskForm() {
 
   return (
     <>
-      <Menu active={menuActive} />
-
       <div className="page-container">
         <header className="header">
-          <div />
-          <i
-            onClick={toggleMenu}
-            className={`${
-              menuActive ? "fa-solid fa-xmark" : "fa-solid fa-bars"
-            }`}
-          />
+          <Menu />
         </header>
         <form className="new-form" onSubmit={handleSubmit}>
           <div className="form-input">

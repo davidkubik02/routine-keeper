@@ -196,15 +196,38 @@ a {
   width: 300px;
   max-width: 50vw;
   height: 100vh;
-  box-shadow: 0 0 100px rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   flex-direction: column;
-  left: -100vw;
+  transform: translateX(-100%);
+  left: 0;
+  top: 0;
   transition: transform 0.3s ease-in-out;
 }
 .menu-active {
-  transform: translateX(100vw);
+  transform: translateX(0);
+}
+
+.menu-outline {
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10000;
+}
+
+.menu-open-button {
+  font-size: 1.25rem;
+}
+
+.menu-close-button {
+  font-size: 1.25rem;
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 5px 7.5px;
 }
 
 .menu-button {

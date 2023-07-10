@@ -1,6 +1,7 @@
 import React from "react";
 import { useRef } from "react";
 import { TaskModel } from "../models/taskModel";
+import Menu from "./Menu";
 
 const Header = ({ setFiltredTasks, tasks, toggleMenu, menuActive }: any) => {
   const searchRef = useRef<HTMLInputElement>(null);
@@ -39,10 +40,7 @@ const Header = ({ setFiltredTasks, tasks, toggleMenu, menuActive }: any) => {
           <i onClick={clearInput} className="fa-solid fa-circle-xmark" />
         </div>
       </div>
-      <i
-        onClick={toggleMenu}
-        className={`${menuActive ? "fa-solid fa-xmark" : "fa-solid fa-bars"}`}
-      />
+      <Menu />
     </header>
   );
 };

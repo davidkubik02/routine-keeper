@@ -29,23 +29,11 @@ const Login = () => {
     }
   };
 
-  const [menuActive, setMenuActive] = useState<boolean>(false);
-
-  const toggleMenu = () => {
-    setMenuActive((menuActive) => !menuActive);
-  };
   return (
     <>
-      <Menu active={menuActive} />
       <div className="page-container">
         <header className="header">
-          <div />
-          <i
-            onClick={toggleMenu}
-            className={`${
-              menuActive ? "fa-solid fa-xmark" : "fa-solid fa-bars"
-            }`}
-          />
+          <Menu />
         </header>
         <form className="auth-form">
           <h2>Přihlásit se</h2>
