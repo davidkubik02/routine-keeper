@@ -32,23 +32,11 @@ const Register = () => {
     }
   };
 
-  const [menuActive, setMenuActive] = useState(false);
-
-  const toggleMenu = () => {
-    setMenuActive((menuActive) => !menuActive);
-  };
   return (
     <>
-      <Menu active={menuActive} />
       <div className="page-container">
         <header className="header">
-          <div />
-          <i
-            onClick={toggleMenu}
-            className={`${
-              menuActive ? "fa-solid fa-xmark" : "fa-solid fa-bars"
-            }`}
-          />
+          <Menu />
         </header>
         <form className="auth-form">
           <h2>Zaregistruj se</h2>

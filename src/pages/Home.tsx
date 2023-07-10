@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import Task from "../components/Task";
 import Header from "../components/Header";
 import { useState } from "react";
-import Menu from "../components/Menu";
 
 import {
   collection,
@@ -75,12 +74,6 @@ const Home = () => {
   }, []);
 
   const [filtredTasks, setFiltredTasks] = useState<TaskModel[]>([]);
-
-  const [menuActive, setMenuActive] = useState<boolean>(false);
-
-  const toggleMenu = (): void => {
-    setMenuActive((menuActive) => !menuActive);
-  };
   const sortTasks = (tasks: TaskModel[]): TaskModel[] => {
     return tasks.sort((a, b) => {
       if (a.compleated !== b.compleated) {
@@ -95,15 +88,8 @@ const Home = () => {
 
   return (
     <>
-      <Menu active={menuActive} />
-
       <div className="page-container">
-        <Header
-          toggleMenu={toggleMenu}
-          menuActive={menuActive}
-          tasks={tasks}
-          setFiltredTasks={setFiltredTasks}
-        />
+        <Header tasks={tasks} setFiltredTasks={setFiltredTasks} />
 
         {filtredTasks?.length > 0 &&
           filtredTasks.map((task: TaskModel) => {
