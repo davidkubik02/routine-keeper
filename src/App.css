@@ -207,12 +207,21 @@ a {
   transform: translateX(100vw);
 }
 
-.menu-button {
+.menu h2 {
+  width: 80px;
+  margin: 0 auto;
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.menu-button,
+.menu a {
   margin-left: 50px;
   margin-bottom: 10px;
   cursor: pointer;
 }
-.menu-button:hover {
+.menu-button:hover,
+.menu a:hover {
   text-decoration: underline;
 }
 

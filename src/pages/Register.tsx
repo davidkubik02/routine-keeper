@@ -25,7 +25,7 @@ const Register = () => {
       return;
     } else setAlert("");
     try {
-      await axios.post("http://localhost:8800/api/register", userInfo);
+      await axios.post("http://localhost:8800/api/auth/register", userInfo);
       navigate("/login");
     } catch (err: any) {
       setAlert(err.response.data);

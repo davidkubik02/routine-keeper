@@ -25,7 +25,7 @@ const Login = () => {
       await login(userInfo);
       navigate("/");
     } catch (err: any) {
-      setAlert(err.response.data);
+      setAlert(err);
     }
   };
 
@@ -62,7 +62,7 @@ const Login = () => {
             onChange={updateUserInfo}
           />
           <button onClick={handleSubmit}>Přihlásit se</button>
-          {alert && <p className="alert">{alert}</p>}
+          {/* {alert && <p className="alert">{alert}</p>} */}
         </form>
       </div>
     </>
