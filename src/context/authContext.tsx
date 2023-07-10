@@ -17,19 +17,22 @@ export const AuthContextProvider = ({
 }: {
   children: React.ReactNode;
 }) => {
-  const [user, setUser] = useState(
-    // JSON.parse(localStorage.getItem("user") || "")
-    "user"
+  const [user, setUser] = useState<object>(
+    JSON.parse(localStorage.getItem("user") || "{}")
   );
 
-  //   todo typ u userInfo nesedí s bacendem
+  //   todo změnit url na správnou
   const login = async (userInfo: any) => {
-    const res = await axios.post("http://localhost:8800/api/login", userInfo);
+    const res = await axios.post(
+      "http://localhost:8800/api/auth/login",
+      userInfo,
+      { withCredentials: true }
+    );
     setUser(res.data);
   };
   const logout = async () => {
-    await axios.post("http://localhost:8800/api/logout");
-    setUser("null");
+    await axios.post("http://localhost:8800/api/auth/logout");
+    setUser({});
   };
 
   useEffect(() => {
