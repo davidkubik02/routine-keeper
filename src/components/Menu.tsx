@@ -1,38 +1,34 @@
+import React, { useContext } from "react";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../context/authContext";
 
-function Menu() {
-  const [menuActive, setMenuActive] = useState<boolean>(false);
-
-  const openMenu = () => {
-    setMenuActive(true);
-  };
-  const closeMenu = () => {
-    setMenuActive(false);
-  };
+function Menu({ active }: { active: boolean }) {
+  const { user, logout } = useContext(AuthContext);
   return (
-    <>
-      <i onClick={openMenu} className="menu-open-button fa-solid fa-bars" />
-      {menuActive && <div className="overlay" onClick={closeMenu} />}
-      <nav className={`menu ${menuActive && "menu-active"}`}>
-        <i
-          onClick={closeMenu}
-          className="menu-close-button fa-solid fa-xmark"
-        />
-        <Link className="menu-button" to="/routine-keeper">
-          Úkoly
-        </Link>
-        <Link className="menu-button" to="/new">
-          Vytvořit nový
-        </Link>
-        <Link className="menu-button" to="/login">
-          Přihlásit se
-        </Link>
-        <Link className="menu-button" to="/register">
-          Zaregistrovat se
-        </Link>
-      </nav>
-    </>
+    <nav className={`menu ${active ? "menu-active" : undefined}`}>
+      {user.name ? (
+        <>
+          <h2>{user.name}</h2>
+          <Link className="menu-button" to="/reoutine-keeper">
+            Úkoly
+          </Link>
+          <Link className="menu-button" to="/new">
+            Vytvořit nový
+          </Link>
+          <a onClick={logout}>Log out</a>
+        </>
+      ) : (
+        <>
+          <Link className="menu-button" to="/login">
+            Přihlásit se
+          </Link>
+          <Link className="menu-button" to="/register">
+            Zaregistrovat se
+          </Link>
+        </>
+      )}
+    </nav>
   );
 }
 
