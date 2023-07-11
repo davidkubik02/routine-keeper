@@ -103,7 +103,7 @@ function NewTaskForm() {
         ...task,
       });
       alert("Úkol byl aktualizován");
-      navigate("/reoutine-keeper");
+      navigate("/routine-keeper");
     } catch {
       alert("Došlo k chybě");
     }
@@ -124,7 +124,7 @@ function NewTaskForm() {
         });
       }
       alert("Úkol byl vytvořen");
-      navigate("/reoutine-keeper");
+      navigate("/routine-keeper");
     } catch {
       alert("Došlo k chybě");
     }
@@ -136,7 +136,7 @@ function NewTaskForm() {
       try {
         await deleteDoc(doc(db, "tasks", id));
         alert("Úkol byl úspěšně smazán");
-        navigate("/reoutine-keeper");
+        navigate("/routine-keeper");
       } catch {
         alert("Došlo k chybě");
       }

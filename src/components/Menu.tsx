@@ -19,7 +19,7 @@ function Menu() {
           onClick={closeMenu}
           className="menu-close-button fa-solid fa-xmark"
         />
-        <Link className="menu-button" to="/reoutine-keeper">
+        <Link className="menu-button" to="/routine-keeper">
           Úkoly
         </Link>
         <Link className="menu-button" to="/new">
