@@ -10,7 +10,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/reoutine-keeper" element={<Home />} />
+        <Route path="/routine-keeper" element={<Home />} />
         <Route path="/new" element={<NewTaskForm />} />
         <Route path="/new/:id" element={<NewTaskForm />} />
         <Route path="/login" element={<Login />} />
