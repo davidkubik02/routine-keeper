@@ -40,7 +40,7 @@ a {
   margin: 0 auto;
   border-left: 1px solid rgb(200, 200, 200);
   border-right: 1px solid rgb(200, 200, 200);
-  height: 100vh;
+  height: 100%;
 }
 
 .header {
@@ -311,6 +311,36 @@ a {
   background-color: transparent;
   z-index: 1000;
 }
+.condition {
+  width: 100%;
+  display: flex;
+  position: relative;
+}
+#condition {
+  padding-right: 30px;
+  flex: 1;
+}
+.condition-delete-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 7.5px;
+}
+
+.condition-add-button {
+  border: 1px solid #000;
+  width: 150px;
+  text-align: center;
+  padding: 2.5px 0;
+  margin: 10px auto;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.condition-add-button:hover {
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
 /*new form end*/
 
 /* note */
