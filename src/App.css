@@ -203,6 +203,7 @@ a {
   left: 0;
   top: 0;
   transition: transform 0.3s ease-in-out;
+  overflow: hidden;
 }
 .menu-active {
   transform: translateX(0);
@@ -232,6 +233,12 @@ a {
 @media screen and (max-width: 400px) {
   .menu {
     max-width: 75vw;
+  }
+}
+@media screen and (max-width: 250px) {
+  .menu-button {
+    margin: 5px auto;
+    white-space: nowrap;
   }
 }
 /* Menu end*/
@@ -303,12 +310,12 @@ a {
   z-index: 1000;
 }
 .condition {
-  width: 100%;
   display: flex;
   position: relative;
   margin: 2.5px 0;
 }
 #condition {
+  width: 100%;
   padding-right: 30px;
   flex: 1;
 }
@@ -321,9 +328,9 @@ a {
 
 .condition-add-button {
   border: 1px solid #000;
-  width: 150px;
+  max-width: 150px;
   text-align: center;
-  padding: 2.5px 0;
+  padding: 2.5px 5px;
   margin: 10px auto;
   cursor: pointer;
   border-radius: 5px;

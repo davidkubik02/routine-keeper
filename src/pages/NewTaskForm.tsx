@@ -288,6 +288,7 @@ function NewTaskForm() {
                 deadline,
                 compleated: false,
                 compleatedInTime: false,
+                conditions: [],
               }}
             />
           </div>
