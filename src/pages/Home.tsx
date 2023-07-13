@@ -6,7 +6,6 @@ import { useState } from "react";
 import {
   collection,
   getDocs,
-  updateDoc,
   doc,
   getDoc,
   writeBatch,
@@ -30,6 +29,7 @@ const Home = () => {
           deadline: task.data().deadline,
           compleated: task.data().compleated,
           compleatedInTime: task.data().compleatedInTime,
+          conditions: task.data().conditions || [],
         });
       });
       tasksReset(tasksArray);

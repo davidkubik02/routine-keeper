@@ -208,16 +208,6 @@ a {
   transform: translateX(0);
 }
 
-.menu-outline {
-  width: 100%;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.6);
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 10000;
-}
-
 .menu-open-button {
   font-size: 1.25rem;
 }
@@ -274,6 +264,7 @@ a {
   height: 5rem;
   font-size: 1rem;
   resize: none;
+  overflow-x: hidden;
 }
 
 .form-submit {
@@ -315,6 +306,7 @@ a {
   width: 100%;
   display: flex;
   position: relative;
+  margin: 2.5px 0;
 }
 #condition {
   padding-right: 30px;
@@ -349,13 +341,14 @@ a {
   padding: 5px;
 }
 
-.note-overlay {
+.overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.2);
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 10000;
 }
 
 .note {
@@ -372,6 +365,7 @@ a {
   align-items: center;
   background-color: rgba(0, 0, 0, 0.6);
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.4);
+  z-index: 100000;
 }
 .note-textarea {
   width: 90%;
@@ -423,3 +417,52 @@ a {
 }
 
 /* note */
+
+/* conditions */
+
+.conditions-container {
+  z-index: 100000;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90vw;
+  height: 75vh;
+  border: 1px solid #000;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.4);
+}
+
+.conditions-container h2 {
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.condition-confirm {
+  width: 90%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  margin: 5px 0;
+}
+
+.condition-confirm input[type="text"] {
+  flex: 1;
+  outline: none;
+  border: 0;
+  padding-right: 10px;
+}
+
+.condition-submit-button {
+  margin-top: 30px;
+  padding: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+/* conditions */
