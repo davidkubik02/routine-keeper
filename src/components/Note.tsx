@@ -32,7 +32,7 @@ function Note({ taskInfo, id }: { taskInfo: TaskModel; id: string }) {
   return (
     <>
       <i className="fa-solid fa-file-lines note-icon" onClick={toggleNote} />
-      {active && <div className="note-overlay" onClick={toggleNote} />}
+      {active && <div className="overlay" onClick={toggleNote} />}
       {active && (
         <div className="note">
           <h3 className="task-note-title">{taskInfo.name}</h3>

@@ -4,6 +4,7 @@ import { updateDoc, doc } from "firebase/firestore";
 import { db } from "../firebase/firebase";
 import { TaskModel } from "../models/taskModel";
 import Note from "./Note";
+import Conditions from "./Conditions";
 
 const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
   const navigate = useNavigate();
@@ -65,6 +66,9 @@ const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
       backgroundColor: `#${taskColor}`,
     };
   };
+
+  const [conditionWindowOpen, setConditionWindowOpen] = useState(false);
+
   const setTaskToComplete = async (): Promise<void> => {
     const inTime =
       calculateTime() <=
@@ -80,6 +84,13 @@ const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
       alert(err);
     }
   };
+
+  const validateConditions = () => {
+    if (taskInfo.conditions.length && !taskIsCompleated) {
+      setConditionWindowOpen(true);
+    } else setTaskToComplete();
+  };
+
   return (
     <div style={setTaskColor()} className={"task"}>
       <div className="task-p">
@@ -104,12 +115,19 @@ const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
               className="checkbox"
               type="checkbox"
               checked={taskIsCompleated}
-              onChange={setTaskToComplete}
+              onChange={validateConditions}
             />
           </div>
         </div>
         {taskInfo.id !== undefined && (
           <Note taskInfo={taskInfo} id={taskInfo.id} />
+        )}
+        {conditionWindowOpen && (
+          <Conditions
+            conditionsValidation={setTaskToComplete}
+            closeConditions={() => setConditionWindowOpen(false)}
+            conditions={taskInfo.conditions}
+          />
         )}
       </div>
     </div>

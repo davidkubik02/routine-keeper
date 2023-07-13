@@ -15,6 +15,7 @@ function App() {
         <Route path="/new/:id" element={<NewTaskForm />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/*" element={<Home />} />
       </Routes>
     </BrowserRouter>
   );

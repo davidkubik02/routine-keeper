@@ -6,5 +6,6 @@ interface TaskModel {
   deadline: number;
   compleated: boolean;
   compleatedInTime: boolean;
+  conditions: string[];
 }
 export { TaskModel };

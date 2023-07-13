@@ -13,7 +13,7 @@ function Menu() {
   return (
     <>
       <i onClick={openMenu} className="menu-open-button fa-solid fa-bars" />
-      {menuActive && <div className="menu-outline" onClick={closeMenu} />}
+      {menuActive && <div className="overlay" onClick={closeMenu} />}
       <nav className={`menu ${menuActive && "menu-active"}`}>
         <i
           onClick={closeMenu}

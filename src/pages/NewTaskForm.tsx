@@ -31,6 +31,8 @@ function NewTaskForm() {
 
   const [isNew, setIsNew] = useState<boolean>(true);
 
+  const [conditions, setConditions] = useState<string[]>([]);
+
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -41,6 +43,7 @@ function NewTaskForm() {
       setPlannedTime(0);
       setDeadline(0);
       setIsNew(true);
+      setConditions([]);
     };
     if (id) {
       getTask(id).then((docSnap) => {
@@ -51,6 +54,7 @@ function NewTaskForm() {
           setDescription(taskData.description);
           setPlannedTime(taskData.plannedTime);
           setDeadline(taskData.deadline);
+          setConditions(taskData.conditions || []);
         } else {
           clearInputs();
         }
@@ -81,6 +85,7 @@ function NewTaskForm() {
       setDealineValidation(true);
       return;
     }
+
     const formData = {
       name,
       description,
@@ -88,6 +93,7 @@ function NewTaskForm() {
       deadline,
       compleated: false,
       compleatedInTime: false,
+      conditions: conditions.filter((condition) => condition !== ""),
     };
     if (isNew) {
       storeTask(formData);
@@ -171,6 +177,10 @@ function NewTaskForm() {
     return time && time % 1 !== 0 ? Math.round((time % 1) * 60) : "";
   };
 
+  const removeFromArrayByIndex = (array: string[], index: number): string[] => {
+    return array.filter((item, i) => i !== index);
+  };
+
   return (
     <>
       <div className="page-container">
@@ -184,7 +194,7 @@ function NewTaskForm() {
               type="text"
               id="name"
               value={name}
-              maxLength={9}
+              maxLength={25}
               onChange={(event) => setName(event.target.value)}
             />
           </div>
@@ -278,9 +288,51 @@ function NewTaskForm() {
                 deadline,
                 compleated: false,
                 compleatedInTime: false,
+                conditions: [],
               }}
             />
           </div>
+          <div className="form-input">
+            <label htmlFor="conditions">Podmínky k splnění:</label>
+            {conditions.map((condition, index) => {
+              return (
+                <div key={index} className="condition">
+                  <input
+                    type="text"
+                    id="condition"
+                    maxLength={40}
+                    value={condition}
+                    onChange={(e) =>
+                      setConditions((conditions) => {
+                        const updatedConditions = [...conditions];
+                        updatedConditions[index] = e.target.value;
+                        return updatedConditions;
+                      })
+                    }
+                  />
+                  <i
+                    onClick={() =>
+                      setConditions((conditions) =>
+                        removeFromArrayByIndex(conditions, index)
+                      )
+                    }
+                    className="condition-delete-button fa-solid fa-trash"
+                  />
+                </div>
+              );
+            })}
+            {conditions.length < 5 && (
+              <div
+                onClick={() =>
+                  setConditions((conditions) => [...conditions, ""])
+                }
+                className="condition-add-button"
+              >
+                {"přidat podmínku"}
+              </div>
+            )}
+          </div>
+
           <input className="form-submit" type="submit" value="Uložit" />
           {!isNew && (
             <input
