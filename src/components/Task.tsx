@@ -93,43 +93,40 @@ const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
 
   return (
     <div style={setTaskColor()} className={"task"}>
-      <div className="task-p">
-        <div className="task-header">
-          <div className="task-header-user-info">
-            <div className="big-text">{taskInfo.name}</div>
-          </div>
-          <div className="flex-center-column">
-            <div className="big-text">{hoursToTime(taskInfo.plannedTime)}</div>
-            <div>
-              {taskInfo.deadline !== 0
-                ? hoursToTime(taskInfo.deadline)
-                : "Bez časového omezení"}
-            </div>
-          </div>
-          <div className="flex-center-column">
-            <i
-              onClick={() => navigate(`/new/${taskInfo.id}`)}
-              className="fa-solid fa-gear"
-            />
-            <input
-              className="checkbox"
-              type="checkbox"
-              checked={taskIsCompleated}
-              onChange={validateConditions}
-            />
+      <div className="task-header">
+        <h3 className="task-header-item task-name">{taskInfo.name}</h3>
+
+        <div className="task-header-item">
+          <h3>{hoursToTime(taskInfo.plannedTime)}</h3>
+          <div>
+            {taskInfo.deadline !== 0
+              ? hoursToTime(taskInfo.deadline)
+              : "Bez časového omezení"}
           </div>
         </div>
-        {taskInfo.id !== undefined && (
-          <Note taskInfo={taskInfo} id={taskInfo.id} />
-        )}
-        {conditionWindowOpen && (
-          <Conditions
-            conditionsValidation={setTaskToComplete}
-            closeConditions={() => setConditionWindowOpen(false)}
-            conditions={taskInfo.conditions}
+        <div className="task-header-item">
+          <i
+            onClick={() => navigate(`/new/${taskInfo.id}`)}
+            className="fa-solid fa-gear"
           />
-        )}
+          <input
+            className="checkbox"
+            type="checkbox"
+            checked={taskIsCompleated}
+            onChange={validateConditions}
+          />
+        </div>
       </div>
+      {taskInfo.id !== undefined && (
+        <Note taskInfo={taskInfo} id={taskInfo.id} />
+      )}
+      {conditionWindowOpen && (
+        <Conditions
+          conditionsValidation={setTaskToComplete}
+          closeConditions={() => setConditionWindowOpen(false)}
+          conditions={taskInfo.conditions}
+        />
+      )}
     </div>
   );
 };

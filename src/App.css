@@ -86,43 +86,29 @@ a {
 }
 
 .task {
-  display: flex;
   padding: 15px;
-  border-bottom: 1px solid rgb(200, 200, 200);
-  border-top: 1px solid rgb(200, 200, 200);
+  padding-left: 30px;
+  border-bottom: 2px solid rgb(0, 0, 0, 0.1);
   transition: background-color ease-out 0.3s;
   height: 8rem;
-}
-
-.task-p {
-  margin-left: 15px;
-  width: 100%;
 }
 
 .task-header {
   display: flex;
   align-items: flex-start;
-  justify-content: space-between;
   margin-bottom: 5px;
 }
 
-.task-header-user-info {
+/* tady nněco chybí */
+.task-header-item {
+  flex: 1;
   display: flex;
-  align-items: flex-end;
-}
 
-.big-text {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.flex-center-column {
-  display: flex;
   align-items: center;
   flex-direction: column;
 }
 
-.flex-center-column i {
+.task-header-item i {
   margin: 5px 0;
 }
 
