@@ -6,7 +6,7 @@ import Menu from "../components/Menu";
 
 const Register = () => {
   const [userInfo, setUserInfo] = useState({
-    name: "",
+    username: "",
     password: "",
     repeatPassword: "",
   });
@@ -25,7 +25,7 @@ const Register = () => {
       return;
     } else setAlert("");
     try {
-      await axios.post("http://localhost:8800/api/auth/register", userInfo);
+      await axios.post("http://localhost:8080/auth/register", userInfo);
       navigate("/login");
     } catch (err: any) {
       setAlert(err.response.data);
@@ -42,7 +42,7 @@ const Register = () => {
           <h2>Zaregistruj se</h2>
           <input
             placeholder="Uživatelské jméno"
-            name="name"
+            name="username"
             type="text"
             onChange={updateUserInfo}
           />
