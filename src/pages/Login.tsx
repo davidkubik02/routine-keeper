@@ -6,7 +6,7 @@ import Menu from "../components/Menu";
 
 const Login = () => {
   const [userInfo, setUserInfo] = useState({
-    name: "",
+    username: "",
     password: "",
   });
 
@@ -19,11 +19,11 @@ const Login = () => {
   const updateUserInfo = (e: any): void => {
     setUserInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
-  const handleSubmit = async (e: any): Promise<void> => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
       await login(userInfo);
-      navigate("/");
+      // navigate("/");
     } catch (err: any) {
       setAlert(err);
     }
@@ -51,7 +51,7 @@ const Login = () => {
           <h2>Přihlásit se</h2>
           <input
             placeholder="Uživatelské jméno"
-            name="name"
+            name="username"
             type="text"
             onChange={updateUserInfo}
           />

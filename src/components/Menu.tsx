@@ -6,9 +6,9 @@ function Menu({ active }: { active: boolean }) {
   const { user, logout } = useContext(AuthContext);
   return (
     <nav className={`menu ${active ? "menu-active" : undefined}`}>
-      {user.name ? (
+      {user?.username ? (
         <>
-          <h2>{user.name}</h2>
+          <h2>{user.username}</h2>
           <Link className="menu-button" to="/reoutine-keeper">
             Úkoly
           </Link>

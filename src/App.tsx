@@ -13,7 +13,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* {!user.name && <Route path="*" element={<Navigate to="/login" />} />} */}
+        {/* {!user.username && <Route path="*" element={<Navigate to="/login" />} />} */}
         <Route path="/reoutine-keeper" element={<Home />} />
         <Route path="/new" element={<NewTaskForm />} />
         <Route path="/new/:id" element={<NewTaskForm />} />
