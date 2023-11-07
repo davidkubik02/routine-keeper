@@ -2,12 +2,11 @@ import React, { useEffect } from "react";
 import Task from "../components/Task";
 import Header from "../components/Header";
 import { useState } from "react";
-import Menu from "../components/Menu";
+import Menu from "../navigation/Menu";
 
 import {
   collection,
   getDocs,
-  updateDoc,
   doc,
   getDoc,
   writeBatch,
