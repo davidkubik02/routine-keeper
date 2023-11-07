@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useContext } from "react";
 import { AuthContext } from "../context/authContext";
 import { useNavigate } from "react-router-dom";
-import Menu from "../components/Menu";
+import Menu from "../navigation/Menu";
 
 const Login = () => {
   const [userInfo, setUserInfo] = useState({
@@ -23,9 +23,9 @@ const Login = () => {
     e.preventDefault();
     try {
       await login(userInfo);
-      // navigate("/");
+      navigate("/");
     } catch (err: any) {
-      setAlert(err);
+      setAlert(err.response.data);
     }
   };
 
@@ -50,7 +50,7 @@ const Login = () => {
             onChange={updateUserInfo}
           />
           <button onClick={handleSubmit}>Přihlásit se</button>
-          {/* {alert && <p className="alert">{alert}</p>} */}
+          {alert && <p className="alert">{alert}</p>}
         </form>
       </div>
     </>

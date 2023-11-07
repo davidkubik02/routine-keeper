@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import Task from "../components/Task";
 import ValidationMessage from "../components/ValidationMessage";
-import Menu from "../components/Menu";
+import Menu from "../navigation/Menu";
 import { useNavigate, useParams } from "react-router-dom";
 import { db } from "../firebase/firebase";
 import {
