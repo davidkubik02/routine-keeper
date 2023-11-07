@@ -2,11 +2,11 @@ import React from "react";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Menu from "../components/Menu";
+import Menu from "../navigation/Menu";
 
 const Register = () => {
   const [userInfo, setUserInfo] = useState({
-    name: "",
+    username: "",
     password: "",
     repeatPassword: "",
   });
@@ -25,7 +25,7 @@ const Register = () => {
       return;
     } else setAlert("");
     try {
-      await axios.post("http://localhost:8800/api/register", userInfo);
+      await axios.post("http://localhost:8080/auth/register", userInfo);
       navigate("/login");
     } catch (err: any) {
       setAlert(err.response.data);
@@ -42,7 +42,7 @@ const Register = () => {
           <h2>Zaregistruj se</h2>
           <input
             placeholder="Uživatelské jméno"
-            name="name"
+            name="username"
             type="text"
             onChange={updateUserInfo}
           />

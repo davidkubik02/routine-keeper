@@ -2,11 +2,11 @@ import React from "react";
 import { useState, useContext } from "react";
 import { AuthContext } from "../context/authContext";
 import { useNavigate } from "react-router-dom";
-import Menu from "../components/Menu";
+import Menu from "../navigation/Menu";
 
 const Login = () => {
   const [userInfo, setUserInfo] = useState({
-    name: "",
+    username: "",
     password: "",
   });
 
@@ -19,7 +19,7 @@ const Login = () => {
   const updateUserInfo = (e: any): void => {
     setUserInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
-  const handleSubmit = async (e: any): Promise<void> => {
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
       await login(userInfo);
@@ -39,7 +39,7 @@ const Login = () => {
           <h2>Přihlásit se</h2>
           <input
             placeholder="Uživatelské jméno"
-            name="name"
+            name="username"
             type="text"
             onChange={updateUserInfo}
           />
