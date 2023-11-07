@@ -1,7 +1,7 @@
 import React from "react";
 import { useRef } from "react";
 import { TaskModel } from "../models/taskModel";
-import Menu from "./Menu";
+import Menu from "../navigation/Menu";
 
 const Header = ({ setFiltredTasks, tasks, toggleMenu, menuActive }: any) => {
   const searchRef = useRef<HTMLInputElement>(null);
