@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { updateDoc, doc } from "firebase/firestore";
-import { db } from "../firebase/firebase";
 import { TaskModel } from "../models/taskModel";
 import Note from "./Note";
 import Conditions from "./Conditions";
+import axios from "axios";
 
 const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
   const navigate = useNavigate();
@@ -12,15 +11,24 @@ const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
     taskInfo.compleated
   );
 
-  const updateTask = async (
-    compleated: boolean,
-    inTime: boolean
-  ): Promise<void> => {
-    taskInfo.id &&
-      (await updateDoc(doc(db, "tasks", taskInfo.id), {
-        compleated,
-        compleatedInTime: inTime,
-      }));
+  const toggleTaskStatus = async (): Promise<{
+    compleated: boolean;
+  } | void> => {
+    try {
+      const response = await axios.put(
+        "http://localhost:8080/tasks/toggleTaskStatus",
+        {
+          id: taskInfo.id,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      const compleated = response.data.compleated;
+      return { compleated };
+    } catch (err) {
+      alert(err);
+    }
   };
 
   const calculateTime = (): number => {
@@ -70,18 +78,12 @@ const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
   const [conditionWindowOpen, setConditionWindowOpen] = useState(false);
 
   const setTaskToComplete = async (): Promise<void> => {
-    const inTime =
-      calculateTime() <=
-      (taskInfo.deadline === 0 ? Infinity : taskInfo.deadline);
-    const compleated = !taskIsCompleated;
-    try {
-      await updateTask(compleated, inTime);
-      setTaskIsCompleated((taskIsCompleated: boolean) => {
-        taskInfo.compleated = !taskIsCompleated;
-        return !taskIsCompleated;
+    const compleatedStatus = await toggleTaskStatus();
+    if (compleatedStatus) {
+      setTaskIsCompleated(() => {
+        taskInfo.compleated = compleatedStatus.compleated;
+        return compleatedStatus.compleated;
       });
-    } catch (err) {
-      alert(err);
     }
   };
 

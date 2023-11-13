@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { TaskModel } from "../models/taskModel";
-import { doc, updateDoc } from "firebase/firestore";
-import { db } from "../firebase/firebase";
+import axios from "axios";
 
 function Note({ taskInfo, id }: { taskInfo: TaskModel; id: string }) {
   const [active, setActive] = useState<boolean>(false);
@@ -19,14 +18,20 @@ function Note({ taskInfo, id }: { taskInfo: TaskModel; id: string }) {
 
   const saveNote = async (): Promise<void> => {
     try {
-      await updateDoc(doc(db, "tasks", id), {
-        description: note,
-      });
+      await axios.put(
+        "http://localhost:8080/tasks/updateNote",
+        {
+          id,
+          description: note,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      setUnsaved(false);
     } catch (err) {
-      alert(err);
-      return;
+      alert("Poznámka nebyla uložena, zkuste to prosím znovu. " + err);
     }
-    setUnsaved(false);
   };
 
   return (
