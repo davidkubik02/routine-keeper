@@ -4,19 +4,16 @@ import Task from "../components/Task";
 import ValidationMessage from "../components/ValidationMessage";
 import Menu from "../navigation/Menu";
 import { useNavigate, useParams } from "react-router-dom";
-import { db } from "../firebase/firebase";
-import {
-  collection,
-  addDoc,
-  getDoc,
-  doc,
-  updateDoc,
-  setDoc,
-  deleteDoc,
-  DocumentData,
-  DocumentSnapshot,
-} from "firebase/firestore";
 import { TaskModel } from "../models/taskModel";
+import axios from "axios";
+
+interface TaskData {
+  name: string;
+  description: string;
+  plannedTime: number;
+  deadline: number;
+  conditions: string[];
+}
 
 function NewTaskForm() {
   const [name, setName] = useState<string>("");
@@ -46,10 +43,9 @@ function NewTaskForm() {
       setConditions([]);
     };
     if (id) {
-      getTask(id).then((docSnap) => {
-        if (docSnap.exists()) {
+      getTask(id).then((taskData) => {
+        if (taskData) {
           setIsNew(false);
-          const taskData = docSnap.data();
           setName(taskData.name);
           setDescription(taskData.description);
           setPlannedTime(taskData.plannedTime);
@@ -63,13 +59,14 @@ function NewTaskForm() {
       clearInputs();
     }
   }, [id]);
-
-  const getTask = async (
-    id: string
-  ): Promise<DocumentSnapshot<DocumentData>> => {
-    const docRef = doc(db, "tasks", id);
-    const docSnap = await getDoc(docRef);
-    return docSnap;
+  const getTask = async (id: string | undefined): Promise<TaskData | null> => {
+    const response = await axios.get("http://localhost:8080/tasks/getTask", {
+      params: {
+        id,
+      },
+      withCredentials: true,
+    });
+    return response.data;
   };
   const handleSubmit = (event: any): void => {
     event.preventDefault();
@@ -103,48 +100,57 @@ function NewTaskForm() {
   };
 
   const updateTask = async (task: TaskModel): Promise<void> => {
-    if (!id) return;
     try {
-      await updateDoc(doc(db, "tasks", id), {
-        ...task,
-      });
-      alert("Úkol byl aktualizován");
+      const response = await axios.put(
+        "http://localhost:8080/tasks/updateTask",
+        {
+          id,
+          taskData: task,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      alert(response.data);
       navigate("/routine-keeper");
-    } catch {
-      alert("Došlo k chybě");
+    } catch (err: any) {
+      alert(err.response.data);
     }
   };
   const storeTask = async (task: TaskModel): Promise<void> => {
     try {
-      if (id) {
-        await setDoc(doc(db, "tasks", id), {
-          ...task,
-          compleated: false,
-          compleatedInTime: false,
-        });
-      } else {
-        await addDoc(collection(db, "tasks"), {
-          ...task,
-          compleated: false,
-          compleatedInTime: false,
-        });
-      }
-      alert("Úkol byl vytvořen");
+      const response = await axios.post(
+        "http://localhost:8080/tasks/storeTask",
+        {
+          taskData: task,
+        },
+        {
+          withCredentials: true,
+        }
+      );
+      alert(response.data);
       navigate("/routine-keeper");
-    } catch {
-      alert("Došlo k chybě");
+    } catch (err: any) {
+      alert(err.response.data);
     }
   };
 
   const deleteTask = async () => {
-    if (!id) return;
     if (window.confirm("Vážně chcete smazat tento úkol?")) {
       try {
-        await deleteDoc(doc(db, "tasks", id));
-        alert("Úkol byl úspěšně smazán");
+        const response = await axios.delete(
+          "http://localhost:8080/tasks/deleteTask",
+          {
+            params: {
+              id,
+            },
+            withCredentials: true,
+          }
+        );
+        alert(response.data);
         navigate("/routine-keeper");
-      } catch {
-        alert("Došlo k chybě");
+      } catch (err: any) {
+        alert(err.response.data);
       }
     }
   };
@@ -332,7 +338,7 @@ function NewTaskForm() {
               </div>
             )}
           </div>
-
+          {/* přidat aby se nemohl úkol odeslat vícekrát najednou např znemožnit kliknutí na button */}
           <input className="form-submit" type="submit" value="Uložit" />
           {!isNew && (
             <input

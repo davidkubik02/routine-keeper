@@ -2,67 +2,31 @@ import React, { useEffect } from "react";
 import Task from "../components/Task";
 import Header from "../components/Header";
 import { useState } from "react";
-import Menu from "../navigation/Menu";
-
-import {
-  collection,
-  getDocs,
-  doc,
-  getDoc,
-  writeBatch,
-} from "firebase/firestore";
-import { db } from "../firebase/firebase";
 import { TaskModel } from "../models/taskModel";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const Home = () => {
   const [tasks, setTasks] = useState<TaskModel[]>([]);
 
-  const getAllTasks = () => {
-    getDocs(collection(db, "tasks")).then((res) => {
-      const tasksArray: TaskModel[] = [];
-      res.forEach((task) => {
-        tasksArray.push({
-          id: task.id,
-          name: task.data().name,
-          description: task.data().description,
-          plannedTime: task.data().plannedTime,
-          deadline: task.data().deadline,
-          compleated: task.data().compleated,
-          compleatedInTime: task.data().compleatedInTime,
-          conditions: task.data().conditions || [],
-        });
-      });
-      tasksReset(tasksArray);
-      setTasks(sortTasks(tasksArray));
-      setFiltredTasks(sortTasks(tasksArray));
+  const getAllTasks = async () => {
+    const tasksArray = await axios.get("http://localhost:8080/tasks/getTasks", {
+      withCredentials: true,
     });
+    tasksReset();
+    setTasks(sortTasks(tasksArray.data));
+    setFiltredTasks(sortTasks(tasksArray.data));
   };
-  const tasksReset = async (tasks: TaskModel[]) => {
+  const tasksReset = async () => {
     try {
-      const docRef = doc(db, "date", "date");
-      const snapshot = await getDoc(docRef);
-      const data = snapshot.data();
-      const dbDate = data?.date;
-      const currentDate = new Date();
-      const isNewDay =
-        !dbDate || dbDate.toDate().getDate() !== currentDate.getDate();
-
-      if (isNewDay) {
-        const batch = writeBatch(db);
-        tasks.forEach(async (task) => {
-          if (task.id) {
-            const taskRef = doc(db, "tasks", task.id);
-            batch.update(taskRef, {
-              compleated: false,
-              compleatedInTime: false,
-            });
-          }
-        });
-        batch.set(doc(db, "date", "date"), {
-          date: currentDate,
-        });
-        await batch.commit();
+      const response = await axios.post(
+        "http://localhost:8080/tasks/resetTasks",
+        null,
+        {
+          withCredentials: true,
+        }
+      );
+      if (response.data) {
         window.location.reload();
       }
     } catch (err) {
