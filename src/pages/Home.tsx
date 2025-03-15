@@ -41,9 +41,7 @@ const Home = () => {
   const [filtredTasks, setFiltredTasks] = useState<TaskModel[]>([]);
   const sortTasks = (tasks: TaskModel[]): TaskModel[] => {
     return tasks.sort((a, b) => {
-      if (a.compleated !== b.compleated) {
-        return a.compleated ? 1 : -1;
-      } else if (a.plannedTime !== b.plannedTime) {
+      if (a.plannedTime !== b.plannedTime) {
         return a.plannedTime - b.plannedTime;
       } else {
         return a.deadline - b.deadline;
