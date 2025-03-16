@@ -3,33 +3,15 @@ import { useNavigate } from "react-router-dom";
 import { TaskModel } from "../models/taskModel";
 import Note from "./Note";
 import Conditions from "./Conditions";
-import axios from "axios";
 
-const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
+const Task = ({
+  taskInfo,
+  toggleTaskStatus,
+}: {
+  taskInfo: TaskModel;
+  toggleTaskStatus?: (id: string) => Promise<void>;
+}) => {
   const navigate = useNavigate();
-  const [taskIsCompleated, setTaskIsCompleated] = useState<boolean>(
-    taskInfo.compleated
-  );
-
-  const toggleTaskStatus = async (): Promise<{
-    compleated: boolean;
-  } | void> => {
-    try {
-      const response = await axios.put(
-        "http://localhost:8080/tasks/toggleTaskStatus",
-        {
-          id: taskInfo.id,
-        },
-        {
-          withCredentials: true,
-        }
-      );
-      const compleated = response.data.compleated;
-      return { compleated };
-    } catch (err) {
-      alert(err);
-    }
-  };
 
   const calculateTime = (): number => {
     const hours = new Date().getHours();
@@ -53,7 +35,7 @@ const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
       calculateTime() <=
         (taskInfo.deadline === 0 ? Infinity : taskInfo.deadline);
     let taskColor: string;
-    if (taskIsCompleated) {
+    if (taskInfo.compleated) {
       if (taskInfo.compleatedInTime || inTime) {
         // finished in time
         taskColor = "32ff32";
@@ -77,20 +59,18 @@ const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
 
   const [conditionWindowOpen, setConditionWindowOpen] = useState(false);
 
-  const setTaskToComplete = async (): Promise<void> => {
-    const compleatedStatus = await toggleTaskStatus();
-    if (compleatedStatus) {
-      setTaskIsCompleated(() => {
-        taskInfo.compleated = compleatedStatus.compleated;
-        return compleatedStatus.compleated;
-      });
-    }
-  };
-
   const validateConditions = () => {
-    if (taskInfo.conditions.length && !taskIsCompleated) {
+    if (!taskInfo.id) return;
+    if (taskInfo.conditions.length && !taskInfo.compleated) {
       setConditionWindowOpen(true);
-    } else setTaskToComplete();
+    } else taskToggleHandle();
+  };
+  const taskToggleHandle = () => {
+    if (!taskInfo.id) return;
+    if (!toggleTaskStatus) {
+      return;
+    }
+    toggleTaskStatus(taskInfo.id);
   };
 
   return (
@@ -116,7 +96,7 @@ const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
             <input
               className="checkbox"
               type="checkbox"
-              checked={taskIsCompleated}
+              checked={taskInfo.compleated}
               onChange={validateConditions}
             />
           </div>
@@ -126,7 +106,7 @@ const Task = ({ taskInfo }: { taskInfo: TaskModel }) => {
         )}
         {conditionWindowOpen && (
           <Conditions
-            conditionsValidation={setTaskToComplete}
+            conditionsValidation={taskToggleHandle}
             closeConditions={() => setConditionWindowOpen(false)}
             conditions={taskInfo.conditions}
           />
