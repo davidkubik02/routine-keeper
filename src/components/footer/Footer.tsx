@@ -9,14 +9,21 @@ function Footer({
   finishedTaskAmount: number;
 }) {
   const finishedPercentige = (): number => {
-    return (finishedTaskAmount * 100) / taskAmount || 0;
+    return +((finishedTaskAmount * 100) / taskAmount).toFixed(2) || 0;
+  };
+  const styleByCondition = ():
+    | { fontWeight: string; color: string }
+    | undefined => {
+    return finishedPercentige() === 100
+      ? { fontWeight: "bold", color: "green" }
+      : undefined;
   };
   return (
     <footer className="home-footer">
-      Progress:
-      <div>
-        <div className="progress-fraction">{`${finishedTaskAmount}/${taskAmount}`}</div>
-        <div className="progress-percent">{`${finishedPercentige()}%`}</div>
+      <h3>Progress:</h3>
+      <div className="progress-container">
+        <div>{`${finishedTaskAmount}/${taskAmount}`}</div>
+        <div style={styleByCondition()}>{`${finishedPercentige()}%`}</div>
       </div>
     </footer>
   );
