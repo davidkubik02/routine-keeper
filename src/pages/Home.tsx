@@ -63,7 +63,7 @@ const Home = () => {
     return finishedTaskAmount;
   };
 
-  const toggleTaskStatus = async (id: string | void): Promise<void> => {
+  const toggleTaskStatus = async (id: string): Promise<void> => {
     try {
       const response = await axios.put(
         "http://localhost:8080/tasks/toggleTaskStatus",

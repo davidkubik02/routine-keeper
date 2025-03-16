@@ -9,7 +9,7 @@ const Task = ({
   toggleTaskStatus,
 }: {
   taskInfo: TaskModel;
-  toggleTaskStatus?: (id: string | void) => Promise<void>;
+  toggleTaskStatus?: (id: string) => Promise<void>;
 }) => {
   const navigate = useNavigate();
 
