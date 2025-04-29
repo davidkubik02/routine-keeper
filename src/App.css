@@ -11,6 +11,12 @@ i {
 i:hover {
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 }
+i.no-click {
+  cursor: default;
+}
+i.no-click:hover {
+  text-shadow: none;
+}
 
 input[type="checkbox"] {
   appearance: none;
@@ -33,6 +39,12 @@ input[type="checkbox"]:checked:after {
 a {
   color: black;
   text-decoration: none;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .page-container {
@@ -324,13 +336,10 @@ a {
 }
 #condition {
   width: 100%;
-  padding-right: 30px;
+  padding-right: 16px;
   flex: 1;
 }
 .condition-delete-button {
-  position: absolute;
-  top: 0;
-  right: 0;
   padding: 7.5px;
 }
 
@@ -371,7 +380,8 @@ a {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 90vw;
+  width: 100%;
+  max-width: 1186px;
   height: 75vh;
   border: 1px solid #000;
   overflow: auto;
@@ -441,7 +451,8 @@ a {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 90vw;
+  width: 100%;
+  max-width: 1186px;
   height: 75vh;
   border: 1px solid #000;
   overflow: auto;
@@ -464,6 +475,9 @@ a {
   justify-content: space-between;
   border-bottom: 1px solid rgba(0, 0, 0, 0.3);
   margin: 5px 0;
+  padding: 10px;
+  padding-left: 30px;
+  border-radius: 5px;
 }
 
 .condition-confirm input[type="text"] {

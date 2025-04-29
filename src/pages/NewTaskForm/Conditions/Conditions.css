@@ -1,0 +1,25 @@
+.range-inputs {
+  display: flex;
+  flex: auto;
+  position: relative;
+}
+
+.range-inputs input {
+  max-width: 100px;
+  border: none;
+  border-bottom: 1px solid black;
+  text-align: center;
+}
+
+.condition-container {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  padding: 10px;
+  margin-bottom: 5px;
+}
+
+.range-inputs input[type="checkbox"] {
+  margin-left: auto;
+  border-bottom: none;
+  display: flex;
+  align-items: center;
+}

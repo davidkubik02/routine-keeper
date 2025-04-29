@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { TaskModel } from "../models/taskModel";
 import Note from "./Note";
-import Conditions from "./Conditions";
+import Conditions from "./Conditions/Conditions";
+import { ConditionsType } from "../pages/NewTaskForm/types/condition";
 
 const Task = ({
   taskInfo,
   toggleTaskStatus,
 }: {
   taskInfo: TaskModel;
-  toggleTaskStatus?: (id: string) => Promise<void>;
+  toggleTaskStatus?: (id: string, conditions: ConditionsType[] | undefined) => Promise<void>;
 }) => {
   const navigate = useNavigate();
 
@@ -21,19 +22,14 @@ const Task = ({
   const hoursToTime = (timeInhours: number): string => {
     const hours = Math.floor(timeInhours);
     const minutes = Math.round((timeInhours - hours) * 60);
-    return `${hours < 10 ? "0" : ""}${hours}:${
-      minutes < 10 ? "0" : ""
-    }${minutes}`;
+    return `${hours < 10 ? "0" : ""}${hours}:${minutes < 10 ? "0" : ""}${minutes}`;
   };
 
   const setTaskColor = (): { backgroundColor: string } => {
-    const inTime =
-      calculateTime() <=
-      (taskInfo.deadline === 0 ? Infinity : taskInfo.deadline);
+    const inTime = calculateTime() <= (taskInfo.deadline === 0 ? Infinity : taskInfo.deadline);
     const taskTime =
       calculateTime() >= taskInfo.plannedTime &&
-      calculateTime() <=
-        (taskInfo.deadline === 0 ? Infinity : taskInfo.deadline);
+      calculateTime() <= (taskInfo.deadline === 0 ? Infinity : taskInfo.deadline);
     let taskColor: string;
     if (taskInfo.compleated) {
       if (taskInfo.compleatedInTime || inTime) {
@@ -63,14 +59,14 @@ const Task = ({
     if (!taskInfo.id) return;
     if (taskInfo.conditions.length && !taskInfo.compleated) {
       setConditionWindowOpen(true);
-    } else taskToggleHandle();
+    } else taskToggleHandle(undefined);
   };
-  const taskToggleHandle = () => {
+  const taskToggleHandle = (conditions: ConditionsType[] | undefined) => {
     if (!taskInfo.id) return;
     if (!toggleTaskStatus) {
       return;
     }
-    toggleTaskStatus(taskInfo.id);
+    toggleTaskStatus(taskInfo.id, conditions);
   };
 
   return (
@@ -82,28 +78,19 @@ const Task = ({
           </div>
           <div className="flex-center-column">
             <div className="big-text">{hoursToTime(taskInfo.plannedTime)}</div>
+            <div>{taskInfo.deadline !== 0 ? hoursToTime(taskInfo.deadline) : "Bez časového omezení"}</div>
+          </div>
+          <div className="flex-center-column icons-container">
+            <i onClick={() => navigate(`/new/${taskInfo.id}`)} className="fa-solid fa-gear" />
+            <input className="checkbox" type="checkbox" checked={taskInfo.compleated} onChange={validateConditions} />
             <div>
-              {taskInfo.deadline !== 0
-                ? hoursToTime(taskInfo.deadline)
-                : "Bez časového omezení"}
+              {[...Array(taskInfo.value)].map((_, index) => {
+                return <i key={index} className="fa-solid fa-star no-click" />;
+              })}
             </div>
           </div>
-          <div className="flex-center-column">
-            <i
-              onClick={() => navigate(`/new/${taskInfo.id}`)}
-              className="fa-solid fa-gear"
-            />
-            <input
-              className="checkbox"
-              type="checkbox"
-              checked={taskInfo.compleated}
-              onChange={validateConditions}
-            />
-          </div>
         </div>
-        {taskInfo.id !== undefined && (
-          <Note taskInfo={taskInfo} id={taskInfo.id} />
-        )}
+        {taskInfo.id !== undefined && <Note taskInfo={taskInfo} id={taskInfo.id} />}
         {conditionWindowOpen && (
           <Conditions
             conditionsValidation={taskToggleHandle}
