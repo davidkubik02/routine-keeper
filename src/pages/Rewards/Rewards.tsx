@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 function Rewards() {
   const [rewards, setRewards] = useState<{ description: string; id: string }[]>([]);
   const getRewards = async () => {
-    const rewards = await axios.get("http://localhost:8080/evaluation/getRewards", {
+    const rewards = await axios.get("/evaluation/getRewards", {
       withCredentials: true,
     });
     setRewards(rewards.data);
@@ -20,7 +20,7 @@ function Rewards() {
     if (!window.confirm("Chcete vyzvednout tento úkol?")) {
       return;
     }
-    const response = await axios.delete("http://localhost:8080/evaluation/collectReward", {
+    const response = await axios.delete("/evaluation/collectReward", {
       params: {
         id,
       },

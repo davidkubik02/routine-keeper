@@ -24,28 +24,24 @@ export const AuthContext = createContext<AuthContextType>({
   authUser: async () => {},
 });
 
-export const AuthContextProvider = ({
-  children,
-}: {
-  children: React.ReactNode;
-}) => {
+export const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
 
   const login = async (userInfo: UserInfo): Promise<void> => {
-    await axios.post("http://localhost:8080/auth/login", userInfo, {
+    await axios.post("/auth/login", userInfo, {
       withCredentials: true,
     });
     authUser();
   };
   const logout = async () => {
-    await axios.post("http://localhost:8080/auth/logout", null, {
+    await axios.post("/auth/logout", null, {
       withCredentials: true,
     });
     setUser(null);
   };
   const authUser = async () => {
     try {
-      const res = await axios.get("http://localhost:8080/user/getUsername", {
+      const res = await axios.get("/user/getUsername", {
         withCredentials: true,
       });
       const username: string = res.data;
@@ -59,9 +55,5 @@ export const AuthContextProvider = ({
     authUser();
   }, []);
 
-  return (
-    <AuthContext.Provider value={{ user, login, logout, authUser }}>
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={{ user, login, logout, authUser }}>{children}</AuthContext.Provider>;
 };

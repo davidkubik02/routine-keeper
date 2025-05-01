@@ -19,7 +19,7 @@ function Note({ taskInfo, id }: { taskInfo: TaskModel; id: string }) {
   const saveNote = async (): Promise<void> => {
     try {
       await axios.put(
-        "http://localhost:8080/tasks/updateNote",
+        "/tasks/updateNote",
         {
           id,
           description: note,

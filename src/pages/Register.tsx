@@ -25,7 +25,7 @@ const Register = () => {
       return;
     } else setAlert("");
     try {
-      await axios.post("http://localhost:8080/auth/register", userInfo);
+      await axios.post("/auth/register", userInfo);
       navigate("/login");
     } catch (err: any) {
       setAlert(err.response.data);
@@ -40,24 +40,9 @@ const Register = () => {
         </header>
         <form className="auth-form">
           <h2>Zaregistruj se</h2>
-          <input
-            placeholder="Uživatelské jméno"
-            name="username"
-            type="text"
-            onChange={updateUserInfo}
-          />
-          <input
-            placeholder="Heslo"
-            name="password"
-            type="password"
-            onChange={updateUserInfo}
-          />
-          <input
-            placeholder="Heslo znovu"
-            name="repeatPassword"
-            type="password"
-            onChange={updateUserInfo}
-          />
+          <input placeholder="Uživatelské jméno" name="username" type="text" onChange={updateUserInfo} />
+          <input placeholder="Heslo" name="password" type="password" onChange={updateUserInfo} />
+          <input placeholder="Heslo znovu" name="repeatPassword" type="password" onChange={updateUserInfo} />
           <button onClick={handleSubmit}>Zaregistrovat se</button>
           {alert && <p className="alert">{alert}</p>}
         </form>

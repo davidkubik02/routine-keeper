@@ -12,7 +12,7 @@ const Home = () => {
   const [tasks, setTasks] = useState<TaskModel[]>([]);
 
   const getAllTasks = async () => {
-    const tasksArray = await axios.get("http://localhost:8080/tasks/getTasks", {
+    const tasksArray = await axios.get("/tasks/getTasks", {
       withCredentials: true,
     });
     tasksReset();
@@ -20,7 +20,7 @@ const Home = () => {
   };
   const tasksReset = async () => {
     try {
-      const response = await axios.post("http://localhost:8080/tasks/dailyReset", null, {
+      const response = await axios.post("/tasks/dailyReset", null, {
         withCredentials: true,
       });
       if (response.data) {
@@ -61,7 +61,7 @@ const Home = () => {
   const toggleTaskStatus = async (id: string, conditions: ConditionsType[] | undefined): Promise<void> => {
     try {
       const response = await axios.put(
-        "http://localhost:8080/tasks/toggleTaskStatus",
+        "/tasks/toggleTaskStatus",
         {
           id,
           conditions,
@@ -85,7 +85,7 @@ const Home = () => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:8080/evaluation",
+        "/evaluation",
         {},
         {
           withCredentials: true,
@@ -110,7 +110,7 @@ const Home = () => {
   const addReward = async (description: string) => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/evaluation/addReward",
+        "/evaluation/addReward",
         { description },
         {
           withCredentials: true,
@@ -126,7 +126,7 @@ const Home = () => {
   const resetTasks = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/tasks/resetTasks",
+        "/tasks/resetTasks",
         {},
         {
           withCredentials: true,
