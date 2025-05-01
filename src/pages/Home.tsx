@@ -6,6 +6,7 @@ import { TaskModel } from "../models/taskModel";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Footer from "../components/footer/Footer";
+import { ConditionsType } from "./NewTaskForm/types/condition";
 
 const Home = () => {
   const [tasks, setTasks] = useState<TaskModel[]>([]);
@@ -19,13 +20,9 @@ const Home = () => {
   };
   const tasksReset = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:8080/tasks/resetTasks",
-        null,
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.post("http://localhost:8080/tasks/dailyReset", null, {
+        withCredentials: true,
+      });
       if (response.data) {
         window.location.reload();
       }
@@ -61,12 +58,13 @@ const Home = () => {
     return finishedTaskAmount;
   };
 
-  const toggleTaskStatus = async (id: string): Promise<void> => {
+  const toggleTaskStatus = async (id: string, conditions: ConditionsType[] | undefined): Promise<void> => {
     try {
       const response = await axios.put(
         "http://localhost:8080/tasks/toggleTaskStatus",
         {
           id,
+          conditions,
         },
         {
           withCredentials: true,
@@ -74,12 +72,70 @@ const Home = () => {
       );
       const compleated = response.data.compleated;
       setTasks((prev) => {
-        return prev.map((task) =>
-          task.id === id ? { ...task, compleated } : task
-        );
+        return prev.map((task) => (task.id === id ? { ...task, compleated } : task));
       });
     } catch (err) {
       alert(err);
+    }
+  };
+
+  const evaluateTasks = async () => {
+    if (!window.confirm("Vážně chcš vyhodnotit úkol?")) {
+      return;
+    }
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/evaluation",
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+      if (response.data.avilable) {
+        const newRewardName = window.prompt(
+          "Dobrá práce, máš nárok na odměnu!                                                 Zadej popis odměny:"
+        );
+        if (newRewardName !== null) {
+          await addReward(newRewardName);
+        } else {
+          return;
+        }
+      } else {
+        window.alert("Nemáš nárok na odměnu!");
+      }
+    } catch (error) {
+      alert(error);
+    }
+  };
+  const addReward = async (description: string) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/evaluation/addReward",
+        { description },
+        {
+          withCredentials: true,
+        }
+      );
+      alert(response.data);
+      window.location.reload();
+    } catch (err) {
+      alert(err);
+    }
+  };
+
+  const resetTasks = async () => {
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/tasks/resetTasks",
+        {},
+        {
+          withCredentials: true,
+        }
+      );
+      alert(response.data);
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -90,18 +146,14 @@ const Home = () => {
 
         {filtredTasks?.length > 0 &&
           filtredTasks.map((task: TaskModel) => {
-            return (
-              <Task
-                key={task.id}
-                taskInfo={task}
-                toggleTaskStatus={toggleTaskStatus}
-              />
-            );
+            return <Task key={task.id} taskInfo={task} toggleTaskStatus={toggleTaskStatus} />;
           })}
         <Link className="task new-task-button" to="/new">
           +
         </Link>
         <Footer
+          evaluationHandle={evaluateTasks}
+          resetHandle={resetTasks}
           taskAmount={tasks.length}
           finishedTaskAmount={getFinishedTaskAmount()}
         />

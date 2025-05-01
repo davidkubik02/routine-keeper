@@ -1,8 +1,9 @@
 import React from "react";
-import NewTaskForm from "../pages/NewTaskForm";
+import NewTaskForm from "../pages/NewTaskForm/NewTaskForm";
 import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Home from "../pages/Home";
+import Rewards from "../pages/Rewards/Rewards";
 
 interface Route {
   path: string;
@@ -32,6 +33,13 @@ export const routes: Route[] = [
     name: "Upravit",
     element: <NewTaskForm />,
     isMenu: false,
+    isPrivate: true,
+  },
+  {
+    path: "/rewards",
+    name: "Odměny",
+    element: <Rewards />,
+    isMenu: true,
     isPrivate: true,
   },
   {
