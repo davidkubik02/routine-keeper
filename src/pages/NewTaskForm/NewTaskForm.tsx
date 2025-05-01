@@ -66,7 +66,7 @@ function NewTaskForm() {
     }
   }, [id]);
   const getTask = async (id: string | undefined): Promise<TaskData | null> => {
-    const response = await axios.get("http://localhost:8080/tasks/getTask", {
+    const response = await axios.get("/tasks/getTask", {
       params: {
         id,
       },
@@ -121,7 +121,7 @@ function NewTaskForm() {
   const updateTask = async (task: TaskModel): Promise<void> => {
     try {
       const response = await axios.put(
-        "http://localhost:8080/tasks/updateTask",
+        "/tasks/updateTask",
         {
           id,
           taskData: task,
@@ -139,7 +139,7 @@ function NewTaskForm() {
   const storeTask = async (task: TaskModel): Promise<void> => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/tasks/storeTask",
+        "/tasks/storeTask",
         {
           taskData: task,
         },
@@ -157,7 +157,7 @@ function NewTaskForm() {
   const deleteTask = async () => {
     if (window.confirm("Vážně chcete smazat tento úkol?")) {
       try {
-        const response = await axios.delete("http://localhost:8080/tasks/deleteTask", {
+        const response = await axios.delete("/tasks/deleteTask", {
           params: {
             id,
           },
